@@ -1,0 +1,98 @@
+import dataclasses
+import pathlib
+from typing import Callable, Optional
+
+import sdk
+
+from .ui_model import UIModel
+
+
+class MainWindowModel(UIModel):
+    def __init__(self):
+        super().__init__()
+
+        self.profile_db: sdk.ProfileDatabase = sdk.ProfileDatabase(pathlib.Path('app.db'))
+        self._profile: Optional[sdk.Profile] = None
+        self._profiles_changed_listeners: list[Callable[[list[sdk.Profile]], None]] = list()
+
+        self.command_db: sdk.CommandDatabase = sdk.CommandDatabase(pathlib.Path('app.db'))
+        self._command: Optional[sdk.Command] = None
+        self._commands_changed_listeners: list[Callable[[list[sdk.Command]], None]] = list()
+
+    def add_on_profiles_changed_listener(self, listener: Callable[[list[sdk.Profile]], None]) -> None:
+        self._profiles_changed_listeners.append(listener)
+
+    def notify_profiles_changed(self) -> None:
+        profiles = self.profiles
+        listener: Callable[[list[sdk.Profile]], None]
+        for listener in self._profiles_changed_listeners:
+            listener(profiles)
+
+    def fill_profile(self, id_: int):
+        self.profile = self.profile_db.get(id_)
+
+    def create_profile(self) -> sdk.Profile:
+        profile: sdk.Profile = sdk.Profile(**dataclasses.asdict(self._profile)) if self._profile else sdk.Profile()
+        profile.name = 'New Profile'
+        self.profile_db.add(profile)
+        self.notify_profiles_changed()
+        return profile
+
+    def remove_profile(self) -> None:
+        self.profile_db.remove(self.profile)
+        self.notify_profiles_changed()
+
+    def save_profile(self):
+        self.profile_db.edit(self.profile)
+        self.notify_profiles_changed()
+
+    @property
+    def profile(self) -> Optional[sdk.Profile]:
+        return self._profile
+
+    @profile.setter
+    def profile(self, value: Optional[sdk.Profile]) -> None:
+        self._profile = value
+
+    @property
+    def profiles(self) -> list[sdk.Profile]:
+        if not list(self.profile_db.get_all()):
+            self.create_profile()
+        return list(self.profile_db.get_all())
+
+    def add_on_commands_changed_listener(self, listener: Callable[[list[sdk.Command]], None]) -> None:
+        self._commands_changed_listeners.append(listener)
+
+    def notify_commands_changed(self) -> None:
+        commands = self.commands
+        listener: Callable[[list[sdk.Command]], None]
+        for listener in self._commands_changed_listeners:
+            listener(commands)
+
+    def create_command(self) -> sdk.Command:
+        command: sdk.Command = sdk.Command(name="New Command")
+        self.command_db.add(command)
+        self.notify_commands_changed()
+        return command
+
+    def remove_command(self) -> None:
+        self.command_db.remove(self.command)
+        self.notify_commands_changed()
+
+    def save_command(self):
+        self.command_db.edit(self.command)
+        self.notify_commands_changed()
+
+    @property
+    def command(self) -> Optional[sdk.Command]:
+        return self._command
+
+    @command.setter
+    def command(self, value: Optional[sdk.Command]) -> None:
+        self._command = value
+
+    @property
+    def commands(self) -> list[sdk.Command]:
+        if not list(self.command_db.get_all()):
+            self.create_command()
+        return list(self.command_db.get_all())
