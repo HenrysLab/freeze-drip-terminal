@@ -53,6 +53,7 @@ class MainWindow(UI, sdk.Singleton):
         self.current_heartbeat_interval_line_edit: Optional[QLineEdit] = None
         self.current_setup_duration_line_edit: Optional[QLineEdit] = None
 
+        self.status_code_line_edit: Optional[QLineEdit] = None
         self.temp_line_edit: Optional[QLineEdit] = None
         self.rts_bat_volt_line_edit: Optional[QLineEdit] = None
         self.cd_bat_volt_line_edit: Optional[QLineEdit] = None
@@ -203,6 +204,7 @@ class MainWindow(UI, sdk.Singleton):
         self.current_heartbeat_interval_line_edit = getattr(self.main_window, 'lineEdit_31')
         self.current_setup_duration_line_edit = getattr(self.main_window, 'lineEdit_32')
 
+        self.status_code_line_edit = getattr(self.main_window, 'lineEdit_38')
         self.temp_line_edit = getattr(self.main_window, 'lineEdit_39')
         self.rts_bat_volt_line_edit = getattr(self.main_window, 'lineEdit_5')
         self.cd_bat_volt_line_edit = getattr(self.main_window, 'lineEdit_23')
