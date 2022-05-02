@@ -152,6 +152,17 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "pyserial"
+version = "3.5"
+description = "Python Serial Port Extension"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+cp2110 = ["hidapi"]
+
+[[package]]
 name = "pyside6"
 version = "6.2.3"
 description = "Python bindings for the Qt cross-platform application and UI framework"
@@ -213,7 +224,7 @@ sqlcipher = ["sqlcipher3-binary"]
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.10"
-content-hash = "ca65d0fab84be1b70fe0394ed49f4a0d93cdf2602acdfffc3103dcd3f8a0e0b2"
+content-hash = "27da1733cbae534c2109559726639ffb2c4b4a9a2e3cea1ee4e32ff8e1e1fcaf"
 
 [metadata.files]
 alembic = [
@@ -365,6 +376,10 @@ pyinstaller = [
 pyinstaller-hooks-contrib = [
     {file = "pyinstaller-hooks-contrib-2022.2.tar.gz", hash = "sha256:ab1d14fe053016fff7b0c6aea51d980bac6d02114b04063b46ef7dac70c70e1e"},
     {file = "pyinstaller_hooks_contrib-2022.2-py2.py3-none-any.whl", hash = "sha256:7605e440ccb55904cb2a87d72e83642ef176fb7030c77e52ac4d9679bb3d1537"},
+]
+pyserial = [
+    {file = "pyserial-3.5-py2.py3-none-any.whl", hash = "sha256:c4451db6ba391ca6ca299fb3ec7bae67a5c55dde170964c7a14ceefec02f2cf0"},
+    {file = "pyserial-3.5.tar.gz", hash = "sha256:3c77e014170dfffbd816e6ffc205e9842efb10be9f58ec16d3e8675b4925cddb"},
 ]
 pyside6 = [
     {file = "PySide6-6.2.3-6.2.3-cp36.cp37.cp38.cp39.cp310-abi3-macosx_10_14_universal2.whl", hash = "sha256:505a3dcd1894ed4acff9ae600faff1d88873550c0cb66029ff4f59edbd4ecc1b"},

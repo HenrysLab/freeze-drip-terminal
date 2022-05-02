@@ -6,7 +6,7 @@ authors = ["Henry Chang <mr.changyuheng@gmail.com>"]
 readme = "README.md"
 homepage = "https://github.com/HenrysLab/freeze-drip-terminal"
 packages = [
-    { include = "app", from = "packages" },
+    { include = "desktop", from = "packages" },
     { include = "sdk", from = "packages" },
 ]
 
@@ -14,13 +14,14 @@ packages = [
 python = "~3.10"
 dacite = "^1.6.0"
 dataset = "^1.5.2"
+pyserial = "^3.5"
 PySide6 = "^6.2.3"
 
 [tool.poetry.dev-dependencies]
 pyinstaller = "^4.10"
 
 [tool.poetry.scripts]
-freeze-drip-terminal = 'app.app:main'
+freeze-drip-terminal-desktop = 'desktop.main:main'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

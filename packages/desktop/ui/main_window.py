@@ -4,19 +4,22 @@ import importlib.resources
 import pathlib
 from typing import Optional
 
-import sdk
 import PySide6.QtXml  # This is only for PyInstaller to process properly
-from PySide6.QtCore import QIODevice, QFile
+from PySide6.QtCore import QFile, QIODevice
+from PySide6.QtGui import QIcon
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import (
-    QComboBox,
+    QApplication,
     QLineEdit,
     QListWidget,
     QListWidgetItem,
     QMainWindow,
     QPlainTextEdit,
     QPushButton)
+import sdk
+import serial.tools.list_ports
 
+from .q_popup_hookable_combox import QPopupHookableComboBox
 from .q_select_all_on_focus_line_edit import QSelectAllOnFocusLineEdit
 from .ui import UI
 from .. import ui_model
@@ -28,7 +31,7 @@ class MainWindow(UI, sdk.Singleton):
         self.main_window: Optional[QMainWindow] = None
         self.main_window_model: Optional[ui_model.MainWindowModel] = None
 
-        self.port_combo_box: Optional[QComboBox] = None
+        self.port_popup_hookable_combo_box: Optional[QPopupHookableComboBox] = None
         self.port_connect_push_button: Optional[QPushButton] = None
         self.port_disconnect_push_button: Optional[QPushButton] = None
 
@@ -62,21 +65,21 @@ class MainWindow(UI, sdk.Singleton):
         self.add_profile_push_button: Optional[QPushButton] = None
         self.remove_profile_push_button: Optional[QPushButton] = None
 
-        self.profile_name_line_edit: Optional[QLineEdit] = None
-        self.expected_temp_lvl_2_thold_line_edit: Optional[QLineEdit] = None
-        self.expected_temp_lvl_3_thold_line_edit: Optional[QLineEdit] = None
-        self.expected_temp_lvl_4_thold_line_edit: Optional[QLineEdit] = None
-        self.expected_temp_sensitivity_line_edit: Optional[QLineEdit] = None
-        self.expected_temp_detection_interval_line_edit: Optional[QLineEdit] = None
-        self.expected_scale_of_pump_on_time_line_edit: Optional[QLineEdit] = None
-        self.expected_lvl_2_pump_on_time_line_edit: Optional[QLineEdit] = None
-        self.expected_lvl_2_pump_off_time_line_edit: Optional[QLineEdit] = None
-        self.expected_lvl_3_pump_on_time_line_edit: Optional[QLineEdit] = None
-        self.expected_lvl_3_pump_off_time_line_edit: Optional[QLineEdit] = None
-        self.expected_low_battery_thold_line_edit: Optional[QLineEdit] = None
-        self.expected_lost_alarm_interval_line_edit: Optional[QLineEdit] = None
-        self.expected_heartbeat_interval_line_edit: Optional[QLineEdit] = None
-        self.expected_setup_duration_line_edit: Optional[QLineEdit] = None
+        self.profile_name_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_temp_lvl_2_thold_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_temp_lvl_3_thold_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_temp_lvl_4_thold_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_temp_sensitivity_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_temp_detection_interval_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_scale_of_pump_on_time_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_lvl_2_pump_on_time_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_lvl_2_pump_off_time_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_lvl_3_pump_on_time_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_lvl_3_pump_off_time_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_low_battery_thold_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_lost_alarm_interval_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_heartbeat_interval_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
+        self.expected_setup_duration_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
 
         self.send_profile_push_button: Optional[QPushButton] = None
         self.save_profile_push_button: Optional[QPushButton] = None
@@ -85,7 +88,7 @@ class MainWindow(UI, sdk.Singleton):
         self.add_command_push_button: Optional[QPushButton] = None
         self.remove_command_push_button: Optional[QPushButton] = None
 
-        self.command_name_line_edit: Optional[QLineEdit] = None
+        self.command_name_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
         self.save_command_push_button: Optional[QPushButton] = None
         self.command_plain_text_edit: Optional[QPlainTextEdit] = None
         self.send_command_push_button: Optional[QPushButton] = None
@@ -95,6 +98,11 @@ class MainWindow(UI, sdk.Singleton):
     def bind(self, main_window_model: ui_model.MainWindowModel) -> MainWindow:
         super().bind(main_window_model)
         self.main_window_model = main_window_model
+
+        main_window_model.add_on_changed_observer(self.on_connected_changed, 'connected')
+        self.port_popup_hookable_combo_box.add_on_show_popup_listener(self.on_popup_combo_box)
+        self.port_connect_push_button.clicked.connect(self.on_port_connect_push_button_clicked)
+        self.port_disconnect_push_button.clicked.connect(self.on_port_disconnect_push_button_clicked)
 
         main_window_model.add_on_profiles_changed_listener(self.on_profiles_model_changed)
         self.profile_list_widget.currentItemChanged.connect(self.on_profile_list_widget_current_item_changed)
@@ -154,6 +162,7 @@ class MainWindow(UI, sdk.Singleton):
         super().inflate(ui_path)
 
         qui_loader: QUiLoader = QUiLoader()
+        qui_loader.registerCustomWidget(QPopupHookableComboBox)
         qui_loader.registerCustomWidget(QSelectAllOnFocusLineEdit)
         main_window_ui: pathlib.Path
         with importlib.resources.path(__package__, 'main_window.ui') as main_window_ui:
@@ -165,8 +174,14 @@ class MainWindow(UI, sdk.Singleton):
             if not self.main_window:
                 raise RuntimeError(qui_loader.errorString())
 
-        self.port_combo_box = getattr(self.main_window, 'comboBox')
-        self.port_combo_box.setFocus()
+        self.main_window.setWindowTitle(f"{self.main_window.windowTitle()} {sdk.VERSION}")
+
+        app_icon: pathlib.Path
+        with importlib.resources.path(__package__, 'main_window.ico') as app_icon:
+            self.main_window.setWindowIcon(QIcon(str(app_icon)))
+
+        self.port_popup_hookable_combo_box = getattr(self.main_window, 'comboBox')
+        self.port_popup_hookable_combo_box.setFocus()
         self.port_connect_push_button = getattr(self.main_window, 'pushButton_3')
         self.port_disconnect_push_button = getattr(self.main_window, 'pushButton_4')
 
@@ -234,11 +249,38 @@ class MainWindow(UI, sdk.Singleton):
     def show(self) -> MainWindow:
         super().show()
 
+        self.update_port_popup_hookable_combo_box()
+
         self.on_profiles_model_changed(self.main_window_model.profiles)
         self.on_commands_model_changed(self.main_window_model.commands)
 
+        self.main_window.move(
+            QApplication.primaryScreen().availableGeometry().center() - self.main_window.rect().center())
+
         self.main_window.show()
         return self
+
+    def update_port_popup_hookable_combo_box(self):
+        self.port_popup_hookable_combo_box.clear()
+        port_infos: list[serial.tools.list_ports.ListPortInfo] = serial.tools.list_ports.comports()
+        port_info: serial.tools.list_ports.ListPortInfo
+        self.port_popup_hookable_combo_box.addItems(sorted(port_info.name for port_info in port_infos))
+        self.port_connect_push_button.setEnabled(port_infos and not self.main_window_model.connected)
+
+    def on_popup_combo_box(self, combo_box: QPopupHookableComboBox):
+        self.update_port_popup_hookable_combo_box()
+
+    def on_connected_changed(self, connected: bool):
+        self.port_disconnect_push_button.setEnabled(connected)
+        self.send_profile_push_button.setEnabled(connected)
+        self.send_command_push_button.setEnabled(connected)
+        self.update_port_popup_hookable_combo_box()
+
+    def on_port_connect_push_button_clicked(self):
+        self.main_window_model.connected = True
+
+    def on_port_disconnect_push_button_clicked(self):
+        self.main_window_model.connected = False
 
     def on_remove_profile_push_button_clicked(self):
         self.main_window_model.remove_profile()

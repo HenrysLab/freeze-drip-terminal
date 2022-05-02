@@ -11,13 +11,23 @@ class MainWindowModel(UIModel):
     def __init__(self):
         super().__init__()
 
-        self.profile_db: sdk.ProfileDatabase = sdk.ProfileDatabase(pathlib.Path('app.db'))
+        self._connected: bool = False
+
+        self.profile_db: sdk.ProfileDatabase = sdk.ProfileDatabase(pathlib.Path('freeze-drip-terminal-desktop.db'))
         self._profile: Optional[sdk.Profile] = None
         self._profiles_changed_listeners: list[Callable[[list[sdk.Profile]], None]] = list()
 
-        self.command_db: sdk.CommandDatabase = sdk.CommandDatabase(pathlib.Path('app.db'))
+        self.command_db: sdk.CommandDatabase = sdk.CommandDatabase(pathlib.Path('freeze-drip-terminal-desktop.db'))
         self._command: Optional[sdk.Command] = None
         self._commands_changed_listeners: list[Callable[[list[sdk.Command]], None]] = list()
+
+    @property
+    def connected(self) -> bool:
+        return self._connected
+
+    @connected.setter
+    def connected(self, value: bool) -> None:
+        self._connected = value
 
     def add_on_profiles_changed_listener(self, listener: Callable[[list[sdk.Profile]], None]) -> None:
         self._profiles_changed_listeners.append(listener)
