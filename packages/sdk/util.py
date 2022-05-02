@@ -83,3 +83,11 @@ class Singleton:
         if cls not in cls._instance:
             cls._instance[cls] = super().__call__(*args, **kwargs)
         return cls._instance[cls]
+
+
+def floatable(a: Any) -> bool:
+    try:
+        float(a)
+    except ValueError:
+        return False
+    return True

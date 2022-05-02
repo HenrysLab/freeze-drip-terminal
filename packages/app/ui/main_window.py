@@ -102,36 +102,35 @@ class MainWindow(UI, sdk.Singleton):
         self.add_profile_push_button.clicked.connect(self.on_add_profile_push_button_clicked)
 
         main_window_model.add_on_changed_observer(self.on_profile_model_changed, 'profile')
-        self.profile_name_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'name', x))
+        self.profile_name_line_edit.textChanged.connect(self.on_profile_name_line_edit_text_changed)
         self.expected_temp_lvl_2_thold_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'temp_lvl_2_thold', x))
+            self.on_expected_temp_lvl_2_thold_line_edit_text_changed)
         self.expected_temp_lvl_3_thold_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'temp_lvl_3_thold', x))
+            self.on_expected_temp_lvl_3_thold_line_edit_text_changed)
         self.expected_temp_lvl_4_thold_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'temp_lvl_4_thold', x))
+            self.on_expected_temp_lvl_4_thold_line_edit_text_changed)
         self.expected_temp_sensitivity_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'temp_sensitivity', x))
+            self.on_expected_temp_sensitivity_line_edit_text_changed)
         self.expected_temp_detection_interval_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'temp_detection_interval', x))
+            self.on_expected_temp_detection_interval_line_edit_text_changed)
         self.expected_scale_of_pump_on_time_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'scale_of_pump_on_time', x))
+            self.on_expected_scale_of_pump_on_time_line_edit_text_changed)
         self.expected_lvl_2_pump_on_time_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'lvl_2_pump_on_time', x))
+            self.on_expected_lvl_2_pump_on_time_line_edit_text_changed)
         self.expected_lvl_2_pump_off_time_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'lvl_2_pump_off_time', x))
+            self.on_expected_lvl_2_pump_off_time_line_edit_text_changed)
         self.expected_lvl_3_pump_on_time_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'lvl_3_pump_on_time', x))
+            self.on_expected_lvl_3_pump_on_time_line_edit_text_changed)
         self.expected_lvl_3_pump_off_time_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'lvl_3_pump_off_time', x))
+            self.on_expected_lvl_3_pump_off_time_line_edit_text_changed)
         self.expected_low_battery_thold_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'low_battery_thold', x))
+            self.on_expected_low_battery_thold_line_edit_text_changed)
         self.expected_lost_alarm_interval_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'lost_alarm_interval', x))
+            self.on_expected_lost_alarm_interval_line_edit_text_changed)
         self.expected_heartbeat_interval_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'heartbeat_interval', x))
+            self.on_expected_heartbeat_interval_line_edit_text_changed)
         self.expected_setup_duration_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.profile, 'setup_duration', x))
+            self.on_expected_setup_duration_line_edit_text_changed)
 
         self.save_profile_push_button.clicked.connect(self.on_save_profile_push_button_clicked)
 
@@ -289,6 +288,66 @@ class MainWindow(UI, sdk.Singleton):
 
     def on_save_command_push_button_clicked(self):
         self.main_window_model.save_command()
+
+    def on_profile_name_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.name = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_temp_lvl_2_thold_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.temp_lvl_2_thold = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_temp_lvl_3_thold_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.temp_lvl_3_thold = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_temp_lvl_4_thold_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.temp_lvl_4_thold = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_temp_sensitivity_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.temp_sensitivity = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_temp_detection_interval_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.temp_detection_interval = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_scale_of_pump_on_time_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.scale_of_pump_on_time = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_lvl_2_pump_on_time_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.lvl_2_pump_on_time = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_lvl_2_pump_off_time_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.lvl_2_pump_off_time = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_lvl_3_pump_on_time_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.lvl_3_pump_on_time = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_lvl_3_pump_off_time_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.lvl_3_pump_off_time = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_low_battery_thold_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.low_battery_thold = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_lost_alarm_interval_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.lost_alarm_interval = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_heartbeat_interval_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.heartbeat_interval = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
+
+    def on_expected_setup_duration_line_edit_text_changed(self, changed_text: str):
+        self.main_window_model.profile.setup_duration = changed_text
+        self.save_profile_push_button.setEnabled(self.main_window_model.is_profile_valid())
 
     def on_commands_model_changed(self, commands: list[sdk.Command]) -> None:
         last_index: int = self.command_list_widget.currentRow()

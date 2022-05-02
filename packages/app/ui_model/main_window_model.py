@@ -54,6 +54,122 @@ class MainWindowModel(UIModel):
     def profile(self, value: Optional[sdk.Profile]) -> None:
         self._profile = value
 
+    def is_profile_temp_lvl_2_thold_valid(self) -> bool:
+        if not (isinstance(self.profile.temp_lvl_2_thold, str) and
+                sdk.floatable(self.profile.temp_lvl_2_thold) and
+                14 <= float(self.profile.temp_lvl_2_thold) <= 99):
+            return False
+        return True
+
+    def is_profile_temp_lvl_3_thold_valid(self) -> bool:
+        if not (isinstance(self.profile.temp_lvl_3_thold, str) and
+                sdk.floatable(self.profile.temp_lvl_3_thold) and
+                14 <= float(self.profile.temp_lvl_3_thold) <= 99):
+            return False
+        return True
+
+    def is_profile_temp_lvl_4_thold_valid(self) -> bool:
+        if not (isinstance(self.profile.temp_lvl_4_thold, str) and
+                sdk.floatable(self.profile.temp_lvl_4_thold) and
+                14 <= float(self.profile.temp_lvl_4_thold) <= 99):
+            return False
+        return True
+
+    def is_profile_temp_sensitivity_valid(self) -> bool:
+        if not (isinstance(self.profile.temp_sensitivity, str) and
+                sdk.floatable(self.profile.temp_sensitivity) and
+                0.1 <= float(self.profile.temp_sensitivity) <= 3):
+            return False
+        return True
+
+    def is_profile_temp_detection_interval_valid(self) -> bool:
+        if not (isinstance(self.profile.temp_detection_interval, str) and
+                sdk.floatable(self.profile.temp_detection_interval) and
+                1 <= int(self.profile.temp_detection_interval) <= 600):
+            return False
+        return True
+
+    def is_profile_scale_of_pump_on_time_valid(self) -> bool:
+        if not (isinstance(self.profile.scale_of_pump_on_time, str) and
+                sdk.floatable(self.profile.scale_of_pump_on_time) and
+                1 <= float(self.profile.scale_of_pump_on_time) <= 9.9):
+            return False
+        return True
+
+    def is_profile_lvl_2_pump_on_time_valid(self) -> bool:
+        if not (isinstance(self.profile.lvl_2_pump_on_time, str) and
+                sdk.floatable(self.profile.lvl_2_pump_on_time) and
+                30 <= int(self.profile.lvl_2_pump_on_time) <= 600):
+            return False
+        return True
+
+    def is_profile_lvl_2_pump_off_time_valid(self) -> bool:
+        if not (isinstance(self.profile.lvl_2_pump_off_time, str) and
+                sdk.floatable(self.profile.lvl_2_pump_off_time) and
+                30 <= int(self.profile.lvl_2_pump_off_time) <= 600):
+            return False
+        return True
+
+    def is_profile_lvl_3_pump_on_time_valid(self) -> bool:
+        if not (isinstance(self.profile.lvl_3_pump_on_time, str) and
+                sdk.floatable(self.profile.lvl_3_pump_on_time) and
+                30 <= int(self.profile.lvl_3_pump_on_time) <= 600):
+            return False
+        return True
+
+    def is_profile_lvl_3_pump_off_time_valid(self) -> bool:
+        if not (isinstance(self.profile.lvl_3_pump_off_time, str) and
+                sdk.floatable(self.profile.lvl_3_pump_off_time) and
+                30 <= int(self.profile.lvl_3_pump_off_time) <= 600):
+            return False
+        return True
+
+    def is_profile_low_battery_thold_valid(self) -> bool:
+        if not (isinstance(self.profile.low_battery_thold, str) and
+                sdk.floatable(self.profile.low_battery_thold) and
+                7.2 <= float(self.profile.low_battery_thold) <= 15):
+            return False
+        return True
+
+    def is_profile_lost_alarm_interval_valid(self) -> bool:
+        if not (isinstance(self.profile.lost_alarm_interval, str) and
+                sdk.floatable(self.profile.lost_alarm_interval) and
+                1 <= int(self.profile.lost_alarm_interval) <= 300):
+            return False
+        return True
+
+    def is_profile_heartbeat_interval_valid(self) -> bool:
+        if not (isinstance(self.profile.heartbeat_interval, str) and
+                sdk.floatable(self.profile.heartbeat_interval) and
+                1 <= int(self.profile.heartbeat_interval) <= 180):
+            return False
+        return True
+
+    def is_profile_setup_duration_valid(self) -> bool:
+        if not (isinstance(self.profile.setup_duration, str) and
+                sdk.floatable(self.profile.setup_duration) and
+                1 <= int(self.profile.setup_duration) <= 10):
+            return False
+        return True
+
+    def is_profile_valid(self) -> bool:
+        return all([
+            self.is_profile_temp_lvl_2_thold_valid(),
+            self.is_profile_temp_lvl_3_thold_valid(),
+            self.is_profile_temp_lvl_4_thold_valid(),
+            self.is_profile_temp_sensitivity_valid(),
+            self.is_profile_temp_detection_interval_valid(),
+            self.is_profile_scale_of_pump_on_time_valid(),
+            self.is_profile_lvl_2_pump_on_time_valid(),
+            self.is_profile_lvl_2_pump_off_time_valid(),
+            self.is_profile_lvl_3_pump_on_time_valid(),
+            self.is_profile_lvl_3_pump_off_time_valid(),
+            self.is_profile_low_battery_thold_valid(),
+            self.is_profile_lost_alarm_interval_valid(),
+            self.is_profile_heartbeat_interval_valid(),
+            self.is_profile_setup_duration_valid(),
+        ])
+
     @property
     def profiles(self) -> list[sdk.Profile]:
         if not list(self.profile_db.get_all()):
