@@ -272,6 +272,7 @@ class MainWindow(UI, sdk.Singleton):
 
     def on_connected_changed(self, connected: bool):
         self.port_disconnect_push_button.setEnabled(connected)
+        self.refresh_push_button.setEnabled(connected)
         self.send_profile_push_button.setEnabled(connected)
         self.send_command_push_button.setEnabled(connected)
         self.update_port_popup_hookable_combo_box()
