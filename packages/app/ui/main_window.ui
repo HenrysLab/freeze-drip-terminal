@@ -789,7 +789,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Scale of pump on time</string>
+            <string>Scale of pump on time (1 ~ 10)</string>
            </property>
           </widget>
          </item>
@@ -802,7 +802,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Level 3 pump on time (sec)</string>
+            <string>Level 3 pump on time (30 ~ 600, sec)</string>
            </property>
           </widget>
          </item>
@@ -845,7 +845,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Temp detection intvl (sec)</string>
+            <string>Temp detection intvl (1 ~ 600, sec)</string>
            </property>
           </widget>
          </item>
@@ -858,7 +858,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Level 3 pump off time (sec)</string>
+            <string>Level 3 pump off time (30 ~ 600, sec)</string>
            </property>
           </widget>
          </item>
@@ -881,7 +881,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Low Battery thold (V)</string>
+            <string>Low Battery thold (7.2 ~ 15, V)</string>
            </property>
           </widget>
          </item>
@@ -894,7 +894,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Temp level 4 thold (°F)</string>
+            <string>Temp level 4 thold (14 ~ 99, °F)</string>
            </property>
           </widget>
          </item>
@@ -927,7 +927,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Lost alarm intvl (sec)</string>
+            <string>Lost alarm intvl (1 ~ 300, sec)</string>
            </property>
           </widget>
          </item>
@@ -940,7 +940,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Temp level 3 thold (°F)</string>
+            <string>Temp level 3 thold (14 ~ 99, °F)</string>
            </property>
           </widget>
          </item>
@@ -953,7 +953,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Level 2 pump on time (sec)</string>
+            <string>Level 2 pump on time (30 ~ 600, sec)</string>
            </property>
           </widget>
          </item>
@@ -966,7 +966,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Heartbeat intvl (min)</string>
+            <string>Heartbeat intvl (1 ~ 180, min)</string>
            </property>
           </widget>
          </item>
@@ -989,7 +989,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Level 2 pump off time (sec)</string>
+            <string>Level 2 pump off time (30 ~ 600, sec)</string>
            </property>
           </widget>
          </item>
@@ -1022,7 +1022,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Temp level 2 thold (°F)</string>
+            <string>Temp level 2 thold (14 ~ 99, °F)</string>
            </property>
           </widget>
          </item>
@@ -1055,7 +1055,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Temp sensitivity (°F)</string>
+            <string>Temp sensitivity (0.1 ~ 3, °F)</string>
            </property>
           </widget>
          </item>
@@ -1088,7 +1088,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Setup duration (min)</string>
+            <string>Setup duration (1 ~ 10, min)</string>
            </property>
           </widget>
          </item>

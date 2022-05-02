@@ -92,7 +92,7 @@ class MainWindowModel(UIModel):
     def is_profile_scale_of_pump_on_time_valid(self) -> bool:
         if not (isinstance(self.profile.scale_of_pump_on_time, str) and
                 sdk.floatable(self.profile.scale_of_pump_on_time) and
-                1 <= float(self.profile.scale_of_pump_on_time) <= 9.9):
+                1 <= float(self.profile.scale_of_pump_on_time) <= 10):
             return False
         return True
 
