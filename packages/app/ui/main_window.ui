@@ -774,7 +774,7 @@
        <item row="0" column="0">
         <layout class="QGridLayout" name="gridLayout_11">
          <item row="3" column="0">
-          <widget class="QLineEdit" name="lineEdit_2">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_2">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -810,7 +810,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QLineEdit" name="lineEdit_6">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_6">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -820,7 +820,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QLineEdit" name="lineEdit_7">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_7">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -830,7 +830,7 @@
           </widget>
          </item>
          <item row="7" column="0">
-          <widget class="QLineEdit" name="lineEdit_4">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_4">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -866,7 +866,7 @@
           </widget>
          </item>
          <item row="7" column="2">
-          <widget class="QLineEdit" name="lineEdit_12">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_12">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -902,7 +902,7 @@
           </widget>
          </item>
          <item row="7" column="1">
-          <widget class="QLineEdit" name="lineEdit_8">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_8">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -912,7 +912,7 @@
           </widget>
          </item>
          <item row="5" column="3">
-          <widget class="QLineEdit" name="lineEdit_15">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_15">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -974,7 +974,7 @@
           </widget>
          </item>
          <item row="5" column="2">
-          <widget class="QLineEdit" name="lineEdit_11">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_11">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -997,7 +997,7 @@
           </widget>
          </item>
          <item row="3" column="2">
-          <widget class="QLineEdit" name="lineEdit_10">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_10">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -1007,7 +1007,7 @@
           </widget>
          </item>
          <item row="7" column="3">
-          <widget class="QLineEdit" name="lineEdit_16">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_16">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -1030,7 +1030,7 @@
           </widget>
          </item>
          <item row="1" column="2">
-          <widget class="QLineEdit" name="lineEdit_9">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_9">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -1040,7 +1040,7 @@
           </widget>
          </item>
          <item row="1" column="3">
-          <widget class="QLineEdit" name="lineEdit_13">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_13">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -1063,7 +1063,7 @@
           </widget>
          </item>
          <item row="5" column="0">
-          <widget class="QLineEdit" name="lineEdit_3">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_3">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -1073,7 +1073,7 @@
           </widget>
          </item>
          <item row="3" column="3">
-          <widget class="QLineEdit" name="lineEdit_14">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_14">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -1141,7 +1141,7 @@
           </widget>
          </item>
          <item row="1" column="0" colspan="2">
-          <widget class="QLineEdit" name="lineEdit">
+          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -1311,7 +1311,7 @@
         </widget>
        </item>
        <item row="1" column="2" colspan="2">
-        <widget class="QLineEdit" name="lineEdit_35">
+        <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_35">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
            <horstretch>0</horstretch>
@@ -1339,6 +1339,13 @@
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QSelectAllOnFocusLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>QSelectAllOnFocusLineEdit.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>comboBox</tabstop>
   <tabstop>pushButton_3</tabstop>

@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
     QPlainTextEdit,
     QPushButton)
 
+from .q_select_all_on_focus_line_edit import QSelectAllOnFocusLineEdit
 from .ui import UI
 from .. import ui_model
 
@@ -151,12 +152,14 @@ class MainWindow(UI, sdk.Singleton):
 
     def inflate(self, ui_path: Optional[pathlib.Path] = None) -> MainWindow:
         super().inflate(ui_path)
+
+        qui_loader: QUiLoader = QUiLoader()
+        qui_loader.registerCustomWidget(QSelectAllOnFocusLineEdit)
         main_window_ui: pathlib.Path
         with importlib.resources.path(__package__, 'main_window.ui') as main_window_ui:
             main_window_ui_qfile: QFile = QFile(str(main_window_ui))
             if not main_window_ui_qfile.open(QIODevice.ReadOnly):
                 raise RuntimeError(f"Cannot open {main_window_ui}: {main_window_ui_qfile.errorString()}")
-            qui_loader: QUiLoader = QUiLoader()
             self.main_window = qui_loader.load(main_window_ui_qfile)
             main_window_ui_qfile.close()
             if not self.main_window:
