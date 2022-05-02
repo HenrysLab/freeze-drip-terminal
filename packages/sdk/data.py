@@ -32,7 +32,8 @@ class ProfileDatabase(Singleton):
     def __init__(self, path: pathlib.Path):
         self.path: pathlib.Path = path
         with dataset.connect(f'sqlite:///{str(self.path)}') as tx:
-            tx.get_table('profile') if 'profile' in tx.tables else tx.create_table('profile')
+            if 'profile' not in tx.tables:
+                tx.create_table('profile')
 
     def add(self, profile: Profile) -> None:
         profile_dict: dict[str, Any] = dataclasses.asdict(profile)
@@ -102,7 +103,8 @@ class CommandDatabase(Singleton):
     def __init__(self, path: pathlib.Path):
         self.path: pathlib.Path = path
         with dataset.connect(f'sqlite:///{str(self.path)}') as tx:
-            tx.get_table('command') if 'command' in tx.tables else tx.create_table('command')
+            if 'command' not in tx.tables:
+                tx.create_table('command')
 
     def add(self, command: Command) -> None:
         command_dict: dict[str, Any] = dataclasses.asdict(command)

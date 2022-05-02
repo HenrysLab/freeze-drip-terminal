@@ -31,6 +31,25 @@ class MainWindowModel(UIModel):
     def fill_profile(self, id_: int):
         self.profile = self.profile_db.get(id_)
 
+    def generate_default_profiles(self):
+        self.profile_db.add(sdk.Profile(
+            name="Default",
+            temp_lvl_2_thold="40",
+            temp_lvl_3_thold="37",
+            temp_lvl_4_thold="32",
+            temp_sensitivity="1",
+            temp_detection_interval="60",
+            scale_of_pump_on_time="2",
+            lvl_2_pump_on_time="30",
+            lvl_2_pump_off_time="60",
+            lvl_3_pump_on_time="60",
+            lvl_3_pump_off_time="30",
+            low_battery_thold="9.6",
+            lost_alarm_interval="10",
+            heartbeat_interval="60",
+            setup_duration="5"))
+        self.notify_commands_changed()
+
     def create_profile(self) -> sdk.Profile:
         profile: sdk.Profile = sdk.Profile(**dataclasses.asdict(self._profile)) if self._profile else sdk.Profile()
         profile.name = 'New Profile'
@@ -173,7 +192,7 @@ class MainWindowModel(UIModel):
     @property
     def profiles(self) -> list[sdk.Profile]:
         if not list(self.profile_db.get_all()):
-            self.create_profile()
+            self.generate_default_profiles()
         return list(self.profile_db.get_all())
 
     def add_on_commands_changed_listener(self, listener: Callable[[list[sdk.Command]], None]) -> None:
@@ -184,6 +203,12 @@ class MainWindowModel(UIModel):
         listener: Callable[[list[sdk.Command]], None]
         for listener in self._commands_changed_listeners:
             listener(commands)
+
+    def generate_default_commands(self) -> None:
+        self.command_db.add(sdk.Command(
+            name="Read",
+            command="RD"))
+        self.notify_commands_changed()
 
     def create_command(self) -> sdk.Command:
         command: sdk.Command = sdk.Command(name="New Command")
@@ -210,5 +235,5 @@ class MainWindowModel(UIModel):
     @property
     def commands(self) -> list[sdk.Command]:
         if not list(self.command_db.get_all()):
-            self.create_command()
+            self.generate_default_commands()
         return list(self.command_db.get_all())
