@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
+    <width>1440</width>
     <height>960</height>
    </rect>
   </property>
@@ -16,6 +16,11 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Freeze Drip Terminal</string>
   </property>
@@ -23,6 +28,11 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="5" column="0" rowspan="3">
      <widget class="QGroupBox" name="groupBox_2">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="title">
        <string>Profiles</string>
       </property>
@@ -68,6 +78,23 @@
     </item>
     <item row="1" column="1" rowspan="3" colspan="4">
      <widget class="QGroupBox" name="groupBox_6">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="title">
        <string>Device Variables</string>
       </property>
@@ -80,10 +107,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -122,10 +155,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -138,10 +177,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -154,10 +199,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -183,10 +234,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -212,10 +269,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -228,10 +291,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -283,10 +352,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -299,10 +374,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -367,10 +448,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -403,10 +490,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -432,10 +525,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -461,10 +560,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -477,10 +582,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -493,10 +604,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -510,6 +627,11 @@
     </item>
     <item row="0" column="0" colspan="6">
      <widget class="QGroupBox" name="groupBox">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="title">
        <string>Connection</string>
       </property>
@@ -525,6 +647,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Connect</string>
          </property>
@@ -533,10 +661,16 @@
        <item row="2" column="0">
         <widget class="QPopupHookableComboBox" name="comboBox">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+          <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>28</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -551,6 +685,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Disconnect</string>
          </property>
@@ -564,6 +704,11 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>COM Port</string>
          </property>
@@ -574,6 +719,11 @@
     </item>
     <item row="1" column="5" rowspan="3">
      <widget class="QGroupBox" name="groupBox_5">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="title">
        <string>Device Status</string>
       </property>
@@ -593,10 +743,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -616,10 +772,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -653,10 +815,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -669,10 +837,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -685,10 +859,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -722,10 +902,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -738,10 +924,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -754,10 +946,16 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -796,6 +994,11 @@
     </item>
     <item row="5" column="1" rowspan="3" colspan="5">
      <widget class="QGroupBox" name="groupBox_4">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="title">
        <string>Profile</string>
       </property>
@@ -805,10 +1008,16 @@
          <item row="3" column="0">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_2">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -841,30 +1050,48 @@
          <item row="3" column="1">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_6">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
          <item row="5" column="1">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_7">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
          <item row="7" column="0">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_4">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -897,10 +1124,16 @@
          <item row="7" column="2">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_12">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -913,7 +1146,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Low Battery thold (7.2 ~ 15, V)</string>
+            <string>Low Battery thold (3 ~ 15, V)</string>
            </property>
           </widget>
          </item>
@@ -933,20 +1166,32 @@
          <item row="7" column="1">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_8">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
          <item row="5" column="3">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_15">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -1005,10 +1250,16 @@
          <item row="5" column="2">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_11">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -1028,20 +1279,32 @@
          <item row="3" column="2">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_10">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
          <item row="7" column="3">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_16">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -1061,20 +1324,32 @@
          <item row="1" column="2">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_9">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
          <item row="1" column="3">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_13">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -1094,20 +1369,32 @@
          <item row="5" column="0">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_3">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
          <item row="3" column="3">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_14">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -1130,10 +1417,22 @@
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Minimum" vsizetype="Ignored">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>286</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
            </property>
            <property name="text">
             <string>Send</string>
@@ -1150,6 +1449,12 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
            </property>
            <property name="text">
             <string>Save</string>
@@ -1172,10 +1477,16 @@
          <item row="1" column="0" colspan="2">
           <widget class="QSelectAllOnFocusLineEdit" name="lineEdit">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>26</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -1186,6 +1497,11 @@
     </item>
     <item row="2" column="0" rowspan="2">
      <widget class="QGroupBox" name="groupBox_7">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="title">
        <string>Device Control</string>
       </property>
@@ -1203,7 +1519,8 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>18</pointsize>
+           <pointsize>24</pointsize>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
@@ -1216,6 +1533,11 @@
     </item>
     <item row="8" column="0" rowspan="4" colspan="6">
      <widget class="QGroupBox" name="groupBox_3">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="title">
        <string>Terminal</string>
       </property>
@@ -1254,6 +1576,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Send</string>
          </property>
@@ -1272,6 +1600,8 @@
          </property>
          <property name="font">
           <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
            <stylestrategy>PreferAntialias</stylestrategy>
           </font>
          </property>
@@ -1311,6 +1641,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Save</string>
          </property>
@@ -1342,10 +1678,16 @@
        <item row="1" column="2" colspan="2">
         <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_35">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+          <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>26</height>
+          </size>
          </property>
         </widget>
        </item>

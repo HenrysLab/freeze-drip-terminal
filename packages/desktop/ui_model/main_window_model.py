@@ -113,7 +113,7 @@ class MainWindowModel(UIModel):
 
     def is_profile_temp_detection_interval_valid(self) -> bool:
         if not (isinstance(self.profile.temp_detection_interval, str) and
-                sdk.floatable(self.profile.temp_detection_interval) and
+                self.profile.temp_detection_interval.isnumeric() and
                 1 <= int(self.profile.temp_detection_interval) <= 600):
             return False
         return True
@@ -127,28 +127,28 @@ class MainWindowModel(UIModel):
 
     def is_profile_lvl_2_pump_on_time_valid(self) -> bool:
         if not (isinstance(self.profile.lvl_2_pump_on_time, str) and
-                sdk.floatable(self.profile.lvl_2_pump_on_time) and
+                self.profile.lvl_2_pump_on_time.isnumeric() and
                 30 <= int(self.profile.lvl_2_pump_on_time) <= 600):
             return False
         return True
 
     def is_profile_lvl_2_pump_off_time_valid(self) -> bool:
         if not (isinstance(self.profile.lvl_2_pump_off_time, str) and
-                sdk.floatable(self.profile.lvl_2_pump_off_time) and
+                self.profile.lvl_2_pump_off_time.isnumeric() and
                 30 <= int(self.profile.lvl_2_pump_off_time) <= 600):
             return False
         return True
 
     def is_profile_lvl_3_pump_on_time_valid(self) -> bool:
         if not (isinstance(self.profile.lvl_3_pump_on_time, str) and
-                sdk.floatable(self.profile.lvl_3_pump_on_time) and
+                self.profile.lvl_3_pump_on_time.isnumeric() and
                 30 <= int(self.profile.lvl_3_pump_on_time) <= 600):
             return False
         return True
 
     def is_profile_lvl_3_pump_off_time_valid(self) -> bool:
         if not (isinstance(self.profile.lvl_3_pump_off_time, str) and
-                sdk.floatable(self.profile.lvl_3_pump_off_time) and
+                self.profile.lvl_3_pump_off_time.isnumeric() and
                 30 <= int(self.profile.lvl_3_pump_off_time) <= 600):
             return False
         return True
@@ -156,27 +156,27 @@ class MainWindowModel(UIModel):
     def is_profile_low_battery_thold_valid(self) -> bool:
         if not (isinstance(self.profile.low_battery_thold, str) and
                 sdk.floatable(self.profile.low_battery_thold) and
-                7.2 <= float(self.profile.low_battery_thold) <= 15):
+                3 <= float(self.profile.low_battery_thold) <= 15):
             return False
         return True
 
     def is_profile_lost_alarm_interval_valid(self) -> bool:
         if not (isinstance(self.profile.lost_alarm_interval, str) and
-                sdk.floatable(self.profile.lost_alarm_interval) and
+                self.profile.lost_alarm_interval.isnumeric() and
                 1 <= int(self.profile.lost_alarm_interval) <= 300):
             return False
         return True
 
     def is_profile_heartbeat_interval_valid(self) -> bool:
         if not (isinstance(self.profile.heartbeat_interval, str) and
-                sdk.floatable(self.profile.heartbeat_interval) and
+                self.profile.heartbeat_interval.isnumeric() and
                 1 <= int(self.profile.heartbeat_interval) <= 180):
             return False
         return True
 
     def is_profile_setup_duration_valid(self) -> bool:
         if not (isinstance(self.profile.setup_duration, str) and
-                sdk.floatable(self.profile.setup_duration) and
+                self.profile.setup_duration.isnumeric() and
                 1 <= int(self.profile.setup_duration) <= 10):
             return False
         return True
