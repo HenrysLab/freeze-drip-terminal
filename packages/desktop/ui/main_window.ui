@@ -1474,7 +1474,7 @@
        <item row="1" column="0" rowspan="2" colspan="4">
         <widget class="QListWidget" name="listWidget_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+          <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -1616,7 +1616,7 @@
        <item row="0" column="12" rowspan="4" colspan="17">
         <widget class="QPlainTextEdit" name="plainTextEdit_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
