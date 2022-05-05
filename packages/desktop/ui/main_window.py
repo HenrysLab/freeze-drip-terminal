@@ -91,7 +91,7 @@ class MainWindow(UI, sdk.Singleton):
 
         self.command_name_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
         self.save_command_push_button: Optional[QPushButton] = None
-        self.command_plain_text_edit: Optional[QPlainTextEdit] = None
+        self.command_line_edit: Optional[QLineEdit] = None
         self.send_command_push_button: Optional[QPushButton] = None
         self.terminal_plain_text_edit: Optional[QPlainTextEdit] = None
         self.clear_terminal_push_button: Optional[QPushButton] = None
@@ -153,8 +153,8 @@ class MainWindow(UI, sdk.Singleton):
         main_window_model.add_on_changed_observer(self.on_command_model_changed, 'command')
         self.command_name_line_edit.textChanged.connect(
             lambda x: setattr(main_window_model.command, 'name', x))
-        self.command_plain_text_edit.textChanged.connect(
-            lambda: setattr(main_window_model.command, 'command', self.command_plain_text_edit.toPlainText()))
+        self.command_line_edit.textChanged.connect(
+            lambda x: setattr(main_window_model.command, 'command', x))
 
         self.save_command_push_button.clicked.connect(self.on_save_command_push_button_clicked)
         return self
@@ -242,7 +242,7 @@ class MainWindow(UI, sdk.Singleton):
 
         self.command_name_line_edit = getattr(self.main_window, 'lineEdit_35')
         self.save_command_push_button = getattr(self.main_window, 'pushButton_9')
-        self.command_plain_text_edit = getattr(self.main_window, 'plainTextEdit')
+        self.command_line_edit = getattr(self.main_window, 'lineEdit_40')
         self.send_command_push_button = getattr(self.main_window, 'pushButton_8')
         self.terminal_plain_text_edit = getattr(self.main_window, 'plainTextEdit_2')
         self.clear_terminal_push_button = getattr(self.main_window, 'pushButton_13')
@@ -414,4 +414,4 @@ class MainWindow(UI, sdk.Singleton):
         if not command:
             return
         self.command_name_line_edit.setText(command.name)
-        self.command_plain_text_edit.setPlainText(command.command)
+        self.command_line_edit.setText(command.command)
