@@ -61,7 +61,7 @@ class MainWindowModel(UIModel):
         self.notify_commands_changed()
 
     def create_profile(self) -> sdk.Profile:
-        profile: sdk.Profile = sdk.Profile(**dataclasses.asdict(self._profile)) if self._profile else sdk.Profile()
+        profile: sdk.Profile = self.profile_db.get(self._profile.id) if self._profile else sdk.Profile()
         profile.name = 'New Profile'
         self.profile_db.add(profile)
         self.notify_profiles_changed()
