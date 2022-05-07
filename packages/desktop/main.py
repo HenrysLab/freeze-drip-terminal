@@ -1,5 +1,6 @@
 import logging
 import sys
+from typing import Optional
 
 from PySide6.QtCore import Qt, QCoreApplication
 from PySide6.QtWidgets import QApplication
@@ -12,5 +13,5 @@ def main() -> int:
     logging.basicConfig()
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
     app: QApplication = QApplication(sys.argv)
-    _ = ui.MainWindow().inflate().bind(ui_model.MainWindowModel()).show()
+    ui.MainWindow().inflate().bind(ui_model.MainWindowModel()).show()
     return app.exec_()

@@ -1615,6 +1615,9 @@
        </item>
        <item row="0" column="12" rowspan="4" colspan="17">
         <widget class="QPlainTextEdit" name="plainTextEdit_2">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -1625,6 +1628,9 @@
           <font>
            <pointsize>11</pointsize>
           </font>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

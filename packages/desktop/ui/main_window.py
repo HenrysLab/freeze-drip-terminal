@@ -5,10 +5,11 @@ import pathlib
 from typing import Optional
 
 import PySide6.QtXml  # This is only for PyInstaller to process properly
-from PySide6.QtCore import QFile, QIODevice
-from PySide6.QtGui import QIcon
+from PySide6.QtCore import QFile, QIODevice, QObject, Qt, Signal
+from PySide6.QtGui import QIcon, QTextCursor
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import (
+    QWidget,
     QApplication,
     QLineEdit,
     QListWidget,
@@ -18,6 +19,7 @@ from PySide6.QtWidgets import (
     QPushButton)
 import sdk
 import serial.tools.list_ports
+import serial.tools.list_ports_common
 
 from .q_popup_hookable_combox import QPopupHookableComboBox
 from .q_select_all_on_focus_line_edit import QSelectAllOnFocusLineEdit
@@ -27,7 +29,10 @@ from .. import ui_model
 
 class MainWindow(UI, sdk.Singleton):
     def __init__(self):
-        super().__init__(parent=None)
+        self.serial: Optional[sdk.SimpleFreezeDripSerial] = None
+        self.seirla_receiver: sdk.SimpleFreezeDripSerialListener = sdk.SimpleFreezeDripSerialListener()
+        self.seirla_receiver.signal.connect(self.on_receive_serial_data)
+
         self.main_window: Optional[QMainWindow] = None
         self.main_window_model: Optional[ui_model.MainWindowModel] = None
 
@@ -96,6 +101,11 @@ class MainWindow(UI, sdk.Singleton):
         self.terminal_plain_text_edit: Optional[QPlainTextEdit] = None
         self.clear_terminal_push_button: Optional[QPushButton] = None
 
+    def on_receive_serial_data(self, data: str):
+        self.terminal_plain_text_edit.moveCursor(QTextCursor.End)
+        self.terminal_plain_text_edit.insertPlainText(f"{data}\n")
+        self.terminal_plain_text_edit.moveCursor(QTextCursor.End)
+
     def bind(self, main_window_model: ui_model.MainWindowModel) -> MainWindow:
         super().bind(main_window_model)
         self.main_window_model = main_window_model
@@ -157,6 +167,10 @@ class MainWindow(UI, sdk.Singleton):
             lambda x: setattr(main_window_model.command, 'command', x))
 
         self.save_command_push_button.clicked.connect(self.on_save_command_push_button_clicked)
+        self.send_command_push_button.clicked.connect(self.on_send_command_push_button_clicked)
+
+        self.terminal_plain_text_edit.textChanged.connect(self.on_terminal_plain_text_edit_text_changed)
+        self.clear_terminal_push_button.clicked.connect(self.on_clear_terminal_push_button_clicked)
         return self
 
     def inflate(self, ui_path: Optional[pathlib.Path] = None) -> MainWindow:
@@ -188,6 +202,15 @@ class MainWindow(UI, sdk.Singleton):
 
         self.refresh_push_button = getattr(self.main_window, 'pushButton_5')
 
+        self.status_code_line_edit = getattr(self.main_window, 'lineEdit_38')
+        self.temp_line_edit = getattr(self.main_window, 'lineEdit_39')
+        self.rts_bat_volt_line_edit = getattr(self.main_window, 'lineEdit_5')
+        self.cd_bat_volt_line_edit = getattr(self.main_window, 'lineEdit_23')
+        self.heartbeat_flag_line_edit = getattr(self.main_window, 'lineEdit_33')
+        self.low_temp_flag_line_edit = getattr(self.main_window, 'lineEdit_36')
+        self.low_bat_flag_line_edit = getattr(self.main_window, 'lineEdit_34')
+        self.setup_flag_line_edit = getattr(self.main_window, 'lineEdit_37')
+
         self.updated_at_line_edit = getattr(self.main_window, 'lineEdit_25')
         self.current_temp_lvl_2_thold_line_edit = getattr(self.main_window, 'lineEdit_17')
         self.current_temp_lvl_3_thold_line_edit = getattr(self.main_window, 'lineEdit_28')
@@ -203,15 +226,6 @@ class MainWindow(UI, sdk.Singleton):
         self.current_lost_alarm_interval_line_edit = getattr(self.main_window, 'lineEdit_30')
         self.current_heartbeat_interval_line_edit = getattr(self.main_window, 'lineEdit_31')
         self.current_setup_duration_line_edit = getattr(self.main_window, 'lineEdit_32')
-
-        self.status_code_line_edit = getattr(self.main_window, 'lineEdit_38')
-        self.temp_line_edit = getattr(self.main_window, 'lineEdit_39')
-        self.rts_bat_volt_line_edit = getattr(self.main_window, 'lineEdit_5')
-        self.cd_bat_volt_line_edit = getattr(self.main_window, 'lineEdit_23')
-        self.heartbeat_flag_line_edit = getattr(self.main_window, 'lineEdit_33')
-        self.low_temp_flag_line_edit = getattr(self.main_window, 'lineEdit_36')
-        self.low_bat_flag_line_edit = getattr(self.main_window, 'lineEdit_34')
-        self.setup_flag_line_edit = getattr(self.main_window, 'lineEdit_37')
 
         self.profile_list_widget = getattr(self.main_window, 'listWidget')
         self.remove_profile_push_button = getattr(self.main_window, 'pushButton')
@@ -248,10 +262,9 @@ class MainWindow(UI, sdk.Singleton):
         self.clear_terminal_push_button = getattr(self.main_window, 'pushButton_13')
         return self
 
-    def show(self) -> MainWindow:
-        super().show()
-
+    def show(self) -> None:
         self.update_port_popup_hookable_combo_box()
+        self.on_connected_changed(False)
 
         self.on_profiles_model_changed(self.main_window_model.profiles)
         self.on_commands_model_changed(self.main_window_model.commands)
@@ -260,24 +273,63 @@ class MainWindow(UI, sdk.Singleton):
             QApplication.primaryScreen().availableGeometry().center() - self.main_window.rect().center())
 
         self.main_window.show()
-        return self
 
     def update_port_popup_hookable_combo_box(self):
+        origin: str = self.port_popup_hookable_combo_box.currentText()
         self.port_popup_hookable_combo_box.clear()
-        port_infos: list[serial.tools.list_ports.ListPortInfo] = serial.tools.list_ports.comports()
-        port_info: serial.tools.list_ports.ListPortInfo
+        port_infos: list[serial.tools.list_ports_common.ListPortInfo] = sdk.get_available_serial_ports()
+        port_info: serial.tools.list_ports_common.ListPortInfo
+        port_name: str
         self.port_popup_hookable_combo_box.addItems(sorted(port_info.name for port_info in port_infos))
-        self.port_connect_push_button.setEnabled(port_infos and not self.main_window_model.connected)
+        index: int = self.port_popup_hookable_combo_box.findText(origin, flags=Qt.MatchExactly)
+        self.port_popup_hookable_combo_box.setCurrentIndex(0 if index < 0 else index)
 
     def on_popup_combo_box(self, combo_box: QPopupHookableComboBox):
         self.update_port_popup_hookable_combo_box()
 
     def on_connected_changed(self, connected: bool):
+        self.port_popup_hookable_combo_box.setEnabled(not connected)
+        self.port_connect_push_button.setEnabled(
+            sdk.get_available_serial_ports() and not connected)
         self.port_disconnect_push_button.setEnabled(connected)
         self.refresh_push_button.setEnabled(connected)
         self.send_profile_push_button.setEnabled(connected)
         self.send_command_push_button.setEnabled(connected)
         self.update_port_popup_hookable_combo_box()
+
+        self.status_code_line_edit.setEnabled(connected)
+        self.temp_line_edit.setEnabled(connected)
+        self.rts_bat_volt_line_edit.setEnabled(connected)
+        self.cd_bat_volt_line_edit.setEnabled(connected)
+        self.heartbeat_flag_line_edit.setEnabled(connected)
+        self.low_temp_flag_line_edit.setEnabled(connected)
+        self.low_bat_flag_line_edit.setEnabled(connected)
+        self.setup_flag_line_edit.setEnabled(connected)
+
+        self.updated_at_line_edit.setEnabled(connected)
+        self.current_temp_lvl_2_thold_line_edit.setEnabled(connected)
+        self.current_temp_lvl_3_thold_line_edit.setEnabled(connected)
+        self.current_temp_lvl_4_thold_line_edit.setEnabled(connected)
+        self.current_temp_sensitivity_line_edit.setEnabled(connected)
+        self.current_temp_detection_interval_line_edit.setEnabled(connected)
+        self.current_scale_of_pump_on_time_line_edit.setEnabled(connected)
+        self.current_lvl_2_pump_on_time_line_edit.setEnabled(connected)
+        self.current_lvl_2_pump_off_time_line_edit.setEnabled(connected)
+        self.current_lvl_3_pump_on_time_line_edit.setEnabled(connected)
+        self.current_lvl_3_pump_off_time_line_edit.setEnabled(connected)
+        self.current_low_battery_thold_line_edit.setEnabled(connected)
+        self.current_lost_alarm_interval_line_edit.setEnabled(connected)
+        self.current_heartbeat_interval_line_edit.setEnabled(connected)
+        self.current_setup_duration_line_edit.setEnabled(connected)
+
+        self.terminal_plain_text_edit.setEnabled(connected)
+
+        if connected:
+            self.serial = sdk.SimpleFreezeDripSerial(
+                self.port_popup_hookable_combo_box.currentText(),
+                [self.seirla_receiver]).open()
+        elif self.serial:
+            self.serial.close()
 
     def on_port_connect_push_button_clicked(self):
         self.main_window_model.connected = True
@@ -336,6 +388,16 @@ class MainWindow(UI, sdk.Singleton):
 
     def on_save_command_push_button_clicked(self):
         self.main_window_model.save_command()
+
+    def on_send_command_push_button_clicked(self):
+        if self.serial:
+            self.serial.send(self.command_line_edit.text())
+
+    def on_terminal_plain_text_edit_text_changed(self):
+        self.clear_terminal_push_button.setEnabled(bool(self.terminal_plain_text_edit.toPlainText()))
+
+    def on_clear_terminal_push_button_clicked(self):
+        self.terminal_plain_text_edit.setPlainText("")
 
     def on_profile_name_line_edit_text_changed(self, changed_text: str):
         self.main_window_model.profile.name = changed_text
