@@ -115,6 +115,8 @@ class MainWindow(UI, sdk.Singleton):
         self.port_connect_push_button.clicked.connect(self.on_port_connect_push_button_clicked)
         self.port_disconnect_push_button.clicked.connect(self.on_port_disconnect_push_button_clicked)
 
+        self.refresh_push_button.clicked.connect(self.on_refresh_push_button_clicked)
+
         main_window_model.add_on_profiles_changed_listener(self.on_profiles_model_changed)
         self.profile_list_widget.currentItemChanged.connect(self.on_profile_list_widget_current_item_changed)
 
@@ -336,6 +338,11 @@ class MainWindow(UI, sdk.Singleton):
 
     def on_port_disconnect_push_button_clicked(self):
         self.main_window_model.connected = False
+
+    def on_refresh_push_button_clicked(self):
+        if self.serial:
+            self.serial.send('')
+            self.serial.send('RD')
 
     def on_remove_profile_push_button_clicked(self):
         self.main_window_model.remove_profile()
