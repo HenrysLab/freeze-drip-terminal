@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <widget class="QMainWindowExt" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -78,7 +78,7 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLineEdit" name="lineEdit_38">
+          <widget class="QLineEdit" name="status_code_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -105,7 +105,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QLineEdit" name="lineEdit_34">
+          <widget class="QLineEdit" name="low_bat_flag_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -208,7 +208,7 @@
           </widget>
          </item>
          <item row="7" column="0">
-          <widget class="QLineEdit" name="lineEdit_23">
+          <widget class="QLineEdit" name="cd_bat_volt_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -235,7 +235,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QLineEdit" name="lineEdit_36">
+          <widget class="QLineEdit" name="low_temp_flag_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -262,7 +262,7 @@
           </widget>
          </item>
          <item row="5" column="0">
-          <widget class="QLineEdit" name="lineEdit_5">
+          <widget class="QLineEdit" name="rts_bat_volt_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -289,7 +289,7 @@
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QLineEdit" name="lineEdit_39">
+          <widget class="QLineEdit" name="temp_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -316,7 +316,7 @@
           </widget>
          </item>
          <item row="7" column="1">
-          <widget class="QLineEdit" name="lineEdit_37">
+          <widget class="QLineEdit" name="setup_flag_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -343,7 +343,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="lineEdit_33">
+          <widget class="QLineEdit" name="heartbeat_flag_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -448,7 +448,7 @@
         </widget>
        </item>
        <item row="1" column="6" colspan="3">
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="port_connect_push_button">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -476,7 +476,7 @@
         </widget>
        </item>
        <item row="1" column="9" colspan="3">
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="port_disconnect_push_button">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -504,7 +504,7 @@
         </widget>
        </item>
        <item row="1" column="4" colspan="2">
-        <widget class="QPopupHookableComboBox" name="comboBox">
+        <widget class="QPopupHookableComboBox" name="port_popup_hookable_combo_box">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -545,7 +545,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_9">
        <item row="5" column="2">
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="add_profile_push_button">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
            <horstretch>0</horstretch>
@@ -558,7 +558,7 @@
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="remove_profile_push_button">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
            <horstretch>0</horstretch>
@@ -571,7 +571,7 @@
         </widget>
        </item>
        <item row="0" column="1" rowspan="4" colspan="2">
-        <widget class="QListWidget" name="listWidget">
+        <widget class="QListWidget" name="profile_list_widget">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
            <horstretch>0</horstretch>
@@ -684,7 +684,7 @@
           </widget>
          </item>
          <item row="3" column="2">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_10">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_lvl_2_pump_off_time_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -743,7 +743,7 @@
           </widget>
          </item>
          <item row="5" column="0">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_3">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_temp_lvl_3_thold_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -764,7 +764,7 @@
           </widget>
          </item>
          <item row="1" column="2">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_9">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_lvl_2_pump_on_time_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -785,7 +785,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_6">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_temp_sensitivity_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -825,7 +825,7 @@
           </widget>
          </item>
          <item row="5" column="2">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_11">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_lvl_3_pump_on_time_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -865,7 +865,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_7">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_temp_detection_interval_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -886,7 +886,7 @@
           </widget>
          </item>
          <item row="7" column="1">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_8">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_scale_of_pump_on_time_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -945,7 +945,7 @@
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_2">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_temp_lvl_2_thold_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -985,7 +985,7 @@
           </widget>
          </item>
          <item row="1" column="0" colspan="2">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit">
+          <widget class="QSelectAllOnFocusLineEdit" name="profile_name_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -1006,7 +1006,7 @@
           </widget>
          </item>
          <item row="1" column="3">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_13">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_low_battery_thold_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -1027,7 +1027,7 @@
           </widget>
          </item>
          <item row="7" column="0">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_4">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_temp_lvl_4_thold_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -1086,7 +1086,7 @@
           </widget>
          </item>
          <item row="7" column="3">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_16">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_setup_duration_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -1126,7 +1126,7 @@
           </widget>
          </item>
          <item row="7" column="2">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_12">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_lvl_3_pump_off_time_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -1185,7 +1185,7 @@
           </widget>
          </item>
          <item row="5" column="3">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_15">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_heartbeat_interval_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -1206,7 +1206,7 @@
           </widget>
          </item>
          <item row="3" column="3">
-          <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_14">
+          <widget class="QSelectAllOnFocusLineEdit" name="expected_lost_alarm_interval_line_edit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
              <horstretch>0</horstretch>
@@ -1245,7 +1245,7 @@
        <item row="0" column="2">
         <layout class="QGridLayout" name="gridLayout_14">
          <item row="1" column="3">
-          <widget class="QLineEdit" name="lineEdit_27">
+          <widget class="QLineEdit" name="current_lvl_2_pump_on_time_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1310,7 +1310,7 @@
           </widget>
          </item>
          <item row="7" column="2">
-          <widget class="QLineEdit" name="lineEdit_22">
+          <widget class="QLineEdit" name="current_scale_of_pump_on_time_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1337,7 +1337,7 @@
           </widget>
          </item>
          <item row="5" column="4">
-          <widget class="QLineEdit" name="lineEdit_31">
+          <widget class="QLineEdit" name="current_heartbeat_interval_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1364,7 +1364,7 @@
           </widget>
          </item>
          <item row="7" column="1">
-          <widget class="QLineEdit" name="lineEdit_20">
+          <widget class="QLineEdit" name="current_temp_lvl_4_thold_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1410,7 +1410,7 @@
           </widget>
          </item>
          <item row="7" column="4">
-          <widget class="QLineEdit" name="lineEdit_32">
+          <widget class="QLineEdit" name="current_setup_duration_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1456,7 +1456,7 @@
           </widget>
          </item>
          <item row="3" column="2">
-          <widget class="QLineEdit" name="lineEdit_18">
+          <widget class="QLineEdit" name="current_temp_sensitivity_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1483,7 +1483,7 @@
           </widget>
          </item>
          <item row="5" column="3">
-          <widget class="QLineEdit" name="lineEdit_24">
+          <widget class="QLineEdit" name="current_lvl_3_pump_on_time_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1567,7 +1567,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QLineEdit" name="lineEdit_17">
+          <widget class="QLineEdit" name="current_temp_lvl_2_thold_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1594,7 +1594,7 @@
           </widget>
          </item>
          <item row="3" column="3">
-          <widget class="QLineEdit" name="lineEdit_26">
+          <widget class="QLineEdit" name="current_lvl_2_pump_off_time_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1697,7 +1697,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QLineEdit" name="lineEdit_28">
+          <widget class="QLineEdit" name="current_temp_lvl_3_thold_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1762,7 +1762,7 @@
           </widget>
          </item>
          <item row="1" column="4">
-          <widget class="QLineEdit" name="lineEdit_29">
+          <widget class="QLineEdit" name="current_low_battery_thold_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1808,7 +1808,7 @@
           </widget>
          </item>
          <item row="5" column="2">
-          <widget class="QLineEdit" name="lineEdit_19">
+          <widget class="QLineEdit" name="current_temp_detection_interval_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1854,7 +1854,7 @@
           </widget>
          </item>
          <item row="7" column="3">
-          <widget class="QLineEdit" name="lineEdit_21">
+          <widget class="QLineEdit" name="current_lvl_3_pump_off_time_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1881,7 +1881,7 @@
           </widget>
          </item>
          <item row="3" column="4">
-          <widget class="QLineEdit" name="lineEdit_30">
+          <widget class="QLineEdit" name="current_lost_alarm_interval_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1908,7 +1908,7 @@
           </widget>
          </item>
          <item row="1" column="1" colspan="2">
-          <widget class="QLineEdit" name="lineEdit_25">
+          <widget class="QLineEdit" name="updated_at_line_edit">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1951,7 +1951,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="1" column="0">
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="refresh_push_button">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -1993,7 +1993,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_10">
        <item row="0" column="6" colspan="14">
-        <widget class="QSelectAllOnFocusLineEdit" name="lineEdit_35">
+        <widget class="QSelectAllOnFocusLineEdit" name="command_name_line_edit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -2014,7 +2014,7 @@
         </widget>
        </item>
        <item row="0" column="0" rowspan="4" colspan="4">
-        <widget class="QListWidget" name="listWidget_2">
+        <widget class="QListWidget" name="command_list_widget">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -2029,7 +2029,7 @@
         </widget>
        </item>
        <item row="0" column="20" rowspan="4" colspan="7">
-        <widget class="QPlainTextEdit" name="plainTextEdit_2">
+        <widget class="QPlainTextEdit" name="terminal_plain_text_edit">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -2069,7 +2069,7 @@
         </widget>
        </item>
        <item row="1" column="4" rowspan="2" colspan="16">
-        <widget class="QLineEdit" name="lineEdit_40">
+        <widget class="QLineEdit" name="command_line_edit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -2090,7 +2090,7 @@
         </widget>
        </item>
        <item row="3" column="16" colspan="4">
-        <widget class="QPushButton" name="pushButton_8">
+        <widget class="QPushButton" name="send_command_push_button">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -2118,7 +2118,7 @@
         </widget>
        </item>
        <item row="3" column="4" colspan="4">
-        <widget class="QPushButton" name="pushButton_11">
+        <widget class="QPushButton" name="remove_command_push_button">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -2137,7 +2137,7 @@
         </widget>
        </item>
        <item row="3" column="8" colspan="4">
-        <widget class="QPushButton" name="pushButton_10">
+        <widget class="QPushButton" name="add_command_push_button">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -2156,7 +2156,7 @@
         </widget>
        </item>
        <item row="0" column="27" rowspan="4">
-        <widget class="QPushButton" name="pushButton_13">
+        <widget class="QPushButton" name="clear_terminal_push_button">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -2179,7 +2179,7 @@
         </widget>
        </item>
        <item row="3" column="12" colspan="4">
-        <widget class="QPushButton" name="pushButton_9">
+        <widget class="QPushButton" name="save_command_push_button">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
            <horstretch>0</horstretch>
@@ -2207,7 +2207,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_5">
        <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton_6">
+        <widget class="QPushButton" name="send_profile_push_button">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -2235,7 +2235,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QPushButton" name="pushButton_7">
+        <widget class="QPushButton" name="save_profile_push_button">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -2264,6 +2264,12 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>QMainWindowExt</class>
+   <extends>QMainWindow</extends>
+   <header>QMainWindowExt.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>QSelectAllOnFocusLineEdit</class>
    <extends>QLineEdit</extends>
    <header>QSelectAllOnFocusLineEdit.h</header>
@@ -2275,62 +2281,62 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>comboBox</tabstop>
-  <tabstop>pushButton_3</tabstop>
-  <tabstop>pushButton_4</tabstop>
-  <tabstop>lineEdit_38</tabstop>
-  <tabstop>lineEdit_39</tabstop>
-  <tabstop>lineEdit_5</tabstop>
-  <tabstop>lineEdit_23</tabstop>
-  <tabstop>lineEdit_33</tabstop>
-  <tabstop>lineEdit_36</tabstop>
-  <tabstop>lineEdit_34</tabstop>
-  <tabstop>lineEdit_37</tabstop>
-  <tabstop>lineEdit_25</tabstop>
-  <tabstop>lineEdit_17</tabstop>
-  <tabstop>lineEdit_28</tabstop>
-  <tabstop>lineEdit_20</tabstop>
-  <tabstop>lineEdit_18</tabstop>
-  <tabstop>lineEdit_19</tabstop>
-  <tabstop>lineEdit_22</tabstop>
-  <tabstop>lineEdit_27</tabstop>
-  <tabstop>lineEdit_26</tabstop>
-  <tabstop>lineEdit_24</tabstop>
-  <tabstop>lineEdit_21</tabstop>
-  <tabstop>lineEdit_29</tabstop>
-  <tabstop>lineEdit_30</tabstop>
-  <tabstop>lineEdit_31</tabstop>
-  <tabstop>lineEdit_32</tabstop>
-  <tabstop>listWidget</tabstop>
-  <tabstop>pushButton</tabstop>
-  <tabstop>pushButton_2</tabstop>
-  <tabstop>lineEdit</tabstop>
-  <tabstop>lineEdit_2</tabstop>
-  <tabstop>lineEdit_3</tabstop>
-  <tabstop>lineEdit_4</tabstop>
-  <tabstop>lineEdit_6</tabstop>
-  <tabstop>lineEdit_7</tabstop>
-  <tabstop>lineEdit_8</tabstop>
-  <tabstop>lineEdit_9</tabstop>
-  <tabstop>lineEdit_10</tabstop>
-  <tabstop>lineEdit_11</tabstop>
-  <tabstop>lineEdit_12</tabstop>
-  <tabstop>lineEdit_13</tabstop>
-  <tabstop>lineEdit_14</tabstop>
-  <tabstop>lineEdit_15</tabstop>
-  <tabstop>lineEdit_16</tabstop>
-  <tabstop>pushButton_5</tabstop>
-  <tabstop>pushButton_6</tabstop>
-  <tabstop>pushButton_7</tabstop>
-  <tabstop>listWidget_2</tabstop>
-  <tabstop>lineEdit_35</tabstop>
-  <tabstop>lineEdit_40</tabstop>
-  <tabstop>pushButton_11</tabstop>
-  <tabstop>pushButton_10</tabstop>
-  <tabstop>pushButton_9</tabstop>
-  <tabstop>pushButton_8</tabstop>
-  <tabstop>plainTextEdit_2</tabstop>
-  <tabstop>pushButton_13</tabstop>
+  <tabstop>port_popup_hookable_combo_box</tabstop>
+  <tabstop>port_connect_push_button</tabstop>
+  <tabstop>port_disconnect_push_button</tabstop>
+  <tabstop>status_code_line_edit</tabstop>
+  <tabstop>temp_line_edit</tabstop>
+  <tabstop>rts_bat_volt_line_edit</tabstop>
+  <tabstop>cd_bat_volt_line_edit</tabstop>
+  <tabstop>heartbeat_flag_line_edit</tabstop>
+  <tabstop>low_temp_flag_line_edit</tabstop>
+  <tabstop>low_bat_flag_line_edit</tabstop>
+  <tabstop>setup_flag_line_edit</tabstop>
+  <tabstop>updated_at_line_edit</tabstop>
+  <tabstop>current_temp_lvl_2_thold_line_edit</tabstop>
+  <tabstop>current_temp_lvl_3_thold_line_edit</tabstop>
+  <tabstop>current_temp_lvl_4_thold_line_edit</tabstop>
+  <tabstop>current_temp_sensitivity_line_edit</tabstop>
+  <tabstop>current_temp_detection_interval_line_edit</tabstop>
+  <tabstop>current_scale_of_pump_on_time_line_edit</tabstop>
+  <tabstop>current_lvl_2_pump_on_time_line_edit</tabstop>
+  <tabstop>current_lvl_2_pump_off_time_line_edit</tabstop>
+  <tabstop>current_lvl_3_pump_on_time_line_edit</tabstop>
+  <tabstop>current_lvl_3_pump_off_time_line_edit</tabstop>
+  <tabstop>current_low_battery_thold_line_edit</tabstop>
+  <tabstop>current_lost_alarm_interval_line_edit</tabstop>
+  <tabstop>current_heartbeat_interval_line_edit</tabstop>
+  <tabstop>current_setup_duration_line_edit</tabstop>
+  <tabstop>profile_list_widget</tabstop>
+  <tabstop>remove_profile_push_button</tabstop>
+  <tabstop>add_profile_push_button</tabstop>
+  <tabstop>profile_name_line_edit</tabstop>
+  <tabstop>expected_temp_lvl_2_thold_line_edit</tabstop>
+  <tabstop>expected_temp_lvl_3_thold_line_edit</tabstop>
+  <tabstop>expected_temp_lvl_4_thold_line_edit</tabstop>
+  <tabstop>expected_temp_sensitivity_line_edit</tabstop>
+  <tabstop>expected_temp_detection_interval_line_edit</tabstop>
+  <tabstop>expected_scale_of_pump_on_time_line_edit</tabstop>
+  <tabstop>expected_lvl_2_pump_on_time_line_edit</tabstop>
+  <tabstop>expected_lvl_2_pump_off_time_line_edit</tabstop>
+  <tabstop>expected_lvl_3_pump_on_time_line_edit</tabstop>
+  <tabstop>expected_lvl_3_pump_off_time_line_edit</tabstop>
+  <tabstop>expected_low_battery_thold_line_edit</tabstop>
+  <tabstop>expected_lost_alarm_interval_line_edit</tabstop>
+  <tabstop>expected_heartbeat_interval_line_edit</tabstop>
+  <tabstop>expected_setup_duration_line_edit</tabstop>
+  <tabstop>refresh_push_button</tabstop>
+  <tabstop>send_profile_push_button</tabstop>
+  <tabstop>save_profile_push_button</tabstop>
+  <tabstop>command_list_widget</tabstop>
+  <tabstop>command_name_line_edit</tabstop>
+  <tabstop>command_line_edit</tabstop>
+  <tabstop>remove_command_push_button</tabstop>
+  <tabstop>add_command_push_button</tabstop>
+  <tabstop>save_command_push_button</tabstop>
+  <tabstop>send_command_push_button</tabstop>
+  <tabstop>terminal_plain_text_edit</tabstop>
+  <tabstop>clear_terminal_push_button</tabstop>
  </tabstops>
  <resources/>
  <connections/>

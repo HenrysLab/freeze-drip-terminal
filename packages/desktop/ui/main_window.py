@@ -2,128 +2,62 @@ from __future__ import annotations
 
 import importlib.resources
 import pathlib
+import time
 from typing import Optional
 
 import PySide6.QtXml  # This is only for PyInstaller to process properly
-from PySide6.QtCore import QFile, QIODevice, QObject, Qt, Signal
-from PySide6.QtGui import QIcon, QTextCursor
-from PySide6.QtUiTools import QUiLoader
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QCloseEvent, QIcon, QTextCursor
 from PySide6.QtWidgets import (
-    QWidget,
     QApplication,
-    QLineEdit,
-    QListWidget,
     QListWidgetItem,
-    QMainWindow,
-    QPlainTextEdit,
-    QPushButton)
+    QMainWindow)
 import sdk
 import serial.tools.list_ports
 import serial.tools.list_ports_common
 
-from .q_popup_hookable_combox import QPopupHookableComboBox
-from .q_select_all_on_focus_line_edit import QSelectAllOnFocusLineEdit
-from .ui import UI
+from .popup_hookable_combox import QPopupHookableComboBox
 from .. import ui_model
 
 
-class MainWindow(UI, sdk.Singleton):
-    def __init__(self):
+class QMainWindowExt(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.main_window_model: ui_model.MainWindowModel = ui_model.MainWindowModel()
+
         self.serial: Optional[sdk.SimpleFreezeDripSerial] = None
         self.seirla_receiver: sdk.SimpleFreezeDripSerialListener = sdk.SimpleFreezeDripSerialListener()
         self.seirla_receiver.signal.connect(self.on_receive_serial_data)
 
-        self.main_window: Optional[QMainWindow] = None
-        self.main_window_model: Optional[ui_model.MainWindowModel] = None
+    def closeEvent(self, event: QCloseEvent) -> None:
+        if self.serial:
+            self.serial.close()
+        super().closeEvent(event)
 
-        self.port_popup_hookable_combo_box: Optional[QPopupHookableComboBox] = None
-        self.port_connect_push_button: Optional[QPushButton] = None
-        self.port_disconnect_push_button: Optional[QPushButton] = None
+    def setup(self) -> None:
+        self.setWindowTitle(f"{self.windowTitle()} {sdk.VERSION}")
 
-        self.refresh_push_button: Optional[QPushButton] = None
+        app_icon: pathlib.Path
+        with importlib.resources.path(__package__, 'main_window.ico') as app_icon:
+            self.setWindowIcon(QIcon(str(app_icon)))
 
-        self.updated_at_line_edit: Optional[QLineEdit] = None
-        self.current_temp_lvl_2_thold_line_edit: Optional[QLineEdit] = None
-        self.current_temp_lvl_3_thold_line_edit: Optional[QLineEdit] = None
-        self.current_temp_lvl_4_thold_line_edit: Optional[QLineEdit] = None
-        self.current_temp_sensitivity_line_edit: Optional[QLineEdit] = None
-        self.current_temp_detection_interval_line_edit: Optional[QLineEdit] = None
-        self.current_scale_of_pump_on_time_line_edit: Optional[QLineEdit] = None
-        self.current_lvl_2_pump_on_time_line_edit: Optional[QLineEdit] = None
-        self.current_lvl_2_pump_off_time_line_edit: Optional[QLineEdit] = None
-        self.current_lvl_3_pump_on_time_line_edit: Optional[QLineEdit] = None
-        self.current_lvl_3_pump_off_time_line_edit: Optional[QLineEdit] = None
-        self.current_low_battery_thold_line_edit: Optional[QLineEdit] = None
-        self.current_lost_alarm_interval_line_edit: Optional[QLineEdit] = None
-        self.current_heartbeat_interval_line_edit: Optional[QLineEdit] = None
-        self.current_setup_duration_line_edit: Optional[QLineEdit] = None
+        self.move(QApplication.primaryScreen().availableGeometry().center() - self.rect().center())
 
-        self.status_code_line_edit: Optional[QLineEdit] = None
-        self.temp_line_edit: Optional[QLineEdit] = None
-        self.rts_bat_volt_line_edit: Optional[QLineEdit] = None
-        self.cd_bat_volt_line_edit: Optional[QLineEdit] = None
-        self.heartbeat_flag_line_edit: Optional[QLineEdit] = None
-        self.low_temp_flag_line_edit: Optional[QLineEdit] = None
-        self.low_bat_flag_line_edit: Optional[QLineEdit] = None
-        self.setup_flag_line_edit: Optional[QLineEdit] = None
-
-        self.profile_list_widget: Optional[QListWidget] = None
-        self.add_profile_push_button: Optional[QPushButton] = None
-        self.remove_profile_push_button: Optional[QPushButton] = None
-
-        self.profile_name_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_temp_lvl_2_thold_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_temp_lvl_3_thold_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_temp_lvl_4_thold_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_temp_sensitivity_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_temp_detection_interval_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_scale_of_pump_on_time_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_lvl_2_pump_on_time_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_lvl_2_pump_off_time_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_lvl_3_pump_on_time_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_lvl_3_pump_off_time_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_low_battery_thold_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_lost_alarm_interval_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_heartbeat_interval_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.expected_setup_duration_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-
-        self.send_profile_push_button: Optional[QPushButton] = None
-        self.save_profile_push_button: Optional[QPushButton] = None
-
-        self.command_list_widget: Optional[QListWidget] = None
-        self.add_command_push_button: Optional[QPushButton] = None
-        self.remove_command_push_button: Optional[QPushButton] = None
-
-        self.command_name_line_edit: Optional[QSelectAllOnFocusLineEdit] = None
-        self.save_command_push_button: Optional[QPushButton] = None
-        self.command_line_edit: Optional[QLineEdit] = None
-        self.send_command_push_button: Optional[QPushButton] = None
-        self.terminal_plain_text_edit: Optional[QPlainTextEdit] = None
-        self.clear_terminal_push_button: Optional[QPushButton] = None
-
-    def on_receive_serial_data(self, data: str):
-        self.terminal_plain_text_edit.moveCursor(QTextCursor.End)
-        self.terminal_plain_text_edit.insertPlainText(f"{data}\n")
-        self.terminal_plain_text_edit.moveCursor(QTextCursor.End)
-
-    def bind(self, main_window_model: ui_model.MainWindowModel) -> MainWindow:
-        super().bind(main_window_model)
-        self.main_window_model = main_window_model
-
-        main_window_model.add_on_changed_observer(self.on_connected_changed, 'connected')
+        self.main_window_model.add_on_changed_observer(self.on_connected_changed, 'connected')
         self.port_popup_hookable_combo_box.add_on_show_popup_listener(self.on_popup_combo_box)
         self.port_connect_push_button.clicked.connect(self.on_port_connect_push_button_clicked)
         self.port_disconnect_push_button.clicked.connect(self.on_port_disconnect_push_button_clicked)
 
         self.refresh_push_button.clicked.connect(self.on_refresh_push_button_clicked)
 
-        main_window_model.add_on_profiles_changed_listener(self.on_profiles_model_changed)
+        self.main_window_model.add_on_profiles_changed_listener(self.on_profiles_model_changed)
         self.profile_list_widget.currentItemChanged.connect(self.on_profile_list_widget_current_item_changed)
 
         self.remove_profile_push_button.clicked.connect(self.on_remove_profile_push_button_clicked)
         self.add_profile_push_button.clicked.connect(self.on_add_profile_push_button_clicked)
 
-        main_window_model.add_on_changed_observer(self.on_profile_model_changed, 'profile')
+        self.main_window_model.add_on_changed_observer(self.on_profile_model_changed, 'profile')
         self.profile_name_line_edit.textChanged.connect(self.on_profile_name_line_edit_text_changed)
         self.expected_temp_lvl_2_thold_line_edit.textChanged.connect(
             self.on_expected_temp_lvl_2_thold_line_edit_text_changed)
@@ -156,125 +90,34 @@ class MainWindow(UI, sdk.Singleton):
 
         self.save_profile_push_button.clicked.connect(self.on_save_profile_push_button_clicked)
 
-        main_window_model.add_on_commands_changed_listener(self.on_commands_model_changed)
+        self.main_window_model.add_on_commands_changed_listener(self.on_commands_model_changed)
         self.command_list_widget.currentItemChanged.connect(self.on_command_list_widget_current_item_changed)
+
+        self.main_window_model.add_on_changed_observer(self.on_command_model_changed, 'command')
+        self.command_name_line_edit.textChanged.connect(
+            lambda x: setattr(self.main_window_model.command, 'name', x))
+        self.command_line_edit.textChanged.connect(
+            lambda x: setattr(self.main_window_model.command, 'command', x))
 
         self.remove_command_push_button.clicked.connect(self.on_remove_command_push_button_clicked)
         self.add_command_push_button.clicked.connect(self.on_add_command_push_button_clicked)
-
-        main_window_model.add_on_changed_observer(self.on_command_model_changed, 'command')
-        self.command_name_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.command, 'name', x))
-        self.command_line_edit.textChanged.connect(
-            lambda x: setattr(main_window_model.command, 'command', x))
-
         self.save_command_push_button.clicked.connect(self.on_save_command_push_button_clicked)
         self.send_command_push_button.clicked.connect(self.on_send_command_push_button_clicked)
 
         self.terminal_plain_text_edit.textChanged.connect(self.on_terminal_plain_text_edit_text_changed)
         self.clear_terminal_push_button.clicked.connect(self.on_clear_terminal_push_button_clicked)
-        return self
 
-    def inflate(self, ui_path: Optional[pathlib.Path] = None) -> MainWindow:
-        super().inflate(ui_path)
-
-        qui_loader: QUiLoader = QUiLoader()
-        qui_loader.registerCustomWidget(QPopupHookableComboBox)
-        qui_loader.registerCustomWidget(QSelectAllOnFocusLineEdit)
-        main_window_ui: pathlib.Path
-        with importlib.resources.path(__package__, 'main_window.ui') as main_window_ui:
-            main_window_ui_qfile: QFile = QFile(str(main_window_ui))
-            if not main_window_ui_qfile.open(QIODevice.ReadOnly):
-                raise RuntimeError(f"Cannot open {main_window_ui}: {main_window_ui_qfile.errorString()}")
-            self.main_window = qui_loader.load(main_window_ui_qfile)
-            main_window_ui_qfile.close()
-            if not self.main_window:
-                raise RuntimeError(qui_loader.errorString())
-
-        self.main_window.setWindowTitle(f"{self.main_window.windowTitle()} {sdk.VERSION}")
-
-        app_icon: pathlib.Path
-        with importlib.resources.path(__package__, 'main_window.ico') as app_icon:
-            self.main_window.setWindowIcon(QIcon(str(app_icon)))
-
-        self.port_popup_hookable_combo_box = getattr(self.main_window, 'comboBox')
-        self.port_popup_hookable_combo_box.setFocus()
-        self.port_connect_push_button = getattr(self.main_window, 'pushButton_3')
-        self.port_disconnect_push_button = getattr(self.main_window, 'pushButton_4')
-
-        self.refresh_push_button = getattr(self.main_window, 'pushButton_5')
-
-        self.status_code_line_edit = getattr(self.main_window, 'lineEdit_38')
-        self.temp_line_edit = getattr(self.main_window, 'lineEdit_39')
-        self.rts_bat_volt_line_edit = getattr(self.main_window, 'lineEdit_5')
-        self.cd_bat_volt_line_edit = getattr(self.main_window, 'lineEdit_23')
-        self.heartbeat_flag_line_edit = getattr(self.main_window, 'lineEdit_33')
-        self.low_temp_flag_line_edit = getattr(self.main_window, 'lineEdit_36')
-        self.low_bat_flag_line_edit = getattr(self.main_window, 'lineEdit_34')
-        self.setup_flag_line_edit = getattr(self.main_window, 'lineEdit_37')
-
-        self.updated_at_line_edit = getattr(self.main_window, 'lineEdit_25')
-        self.current_temp_lvl_2_thold_line_edit = getattr(self.main_window, 'lineEdit_17')
-        self.current_temp_lvl_3_thold_line_edit = getattr(self.main_window, 'lineEdit_28')
-        self.current_temp_lvl_4_thold_line_edit = getattr(self.main_window, 'lineEdit_20')
-        self.current_temp_sensitivity_line_edit = getattr(self.main_window, 'lineEdit_18')
-        self.current_temp_detection_interval_line_edit = getattr(self.main_window, 'lineEdit_19')
-        self.current_scale_of_pump_on_time_line_edit = getattr(self.main_window, 'lineEdit_22')
-        self.current_lvl_2_pump_on_time_line_edit = getattr(self.main_window, 'lineEdit_27')
-        self.current_lvl_2_pump_off_time_line_edit = getattr(self.main_window, 'lineEdit_26')
-        self.current_lvl_3_pump_on_time_line_edit = getattr(self.main_window, 'lineEdit_24')
-        self.current_lvl_3_pump_off_time_line_edit = getattr(self.main_window, 'lineEdit_21')
-        self.current_low_battery_thold_line_edit = getattr(self.main_window, 'lineEdit_29')
-        self.current_lost_alarm_interval_line_edit = getattr(self.main_window, 'lineEdit_30')
-        self.current_heartbeat_interval_line_edit = getattr(self.main_window, 'lineEdit_31')
-        self.current_setup_duration_line_edit = getattr(self.main_window, 'lineEdit_32')
-
-        self.profile_list_widget = getattr(self.main_window, 'listWidget')
-        self.remove_profile_push_button = getattr(self.main_window, 'pushButton')
-        self.add_profile_push_button = getattr(self.main_window, 'pushButton_2')
-
-        self.profile_name_line_edit = getattr(self.main_window, 'lineEdit')
-        self.expected_temp_lvl_2_thold_line_edit = getattr(self.main_window, 'lineEdit_2')
-        self.expected_temp_lvl_3_thold_line_edit = getattr(self.main_window, 'lineEdit_3')
-        self.expected_temp_lvl_4_thold_line_edit = getattr(self.main_window, 'lineEdit_4')
-        self.expected_temp_sensitivity_line_edit = getattr(self.main_window, 'lineEdit_6')
-        self.expected_temp_detection_interval_line_edit = getattr(self.main_window, 'lineEdit_7')
-        self.expected_scale_of_pump_on_time_line_edit = getattr(self.main_window, 'lineEdit_8')
-        self.expected_lvl_2_pump_on_time_line_edit = getattr(self.main_window, 'lineEdit_9')
-        self.expected_lvl_2_pump_off_time_line_edit = getattr(self.main_window, 'lineEdit_10')
-        self.expected_lvl_3_pump_on_time_line_edit = getattr(self.main_window, 'lineEdit_11')
-        self.expected_lvl_3_pump_off_time_line_edit = getattr(self.main_window, 'lineEdit_12')
-        self.expected_low_battery_thold_line_edit = getattr(self.main_window, 'lineEdit_13')
-        self.expected_lost_alarm_interval_line_edit = getattr(self.main_window, 'lineEdit_14')
-        self.expected_heartbeat_interval_line_edit = getattr(self.main_window, 'lineEdit_15')
-        self.expected_setup_duration_line_edit = getattr(self.main_window, 'lineEdit_16')
-
-        self.send_profile_push_button = getattr(self.main_window, 'pushButton_6')
-        self.save_profile_push_button = getattr(self.main_window, 'pushButton_7')
-
-        self.command_list_widget = getattr(self.main_window, 'listWidget_2')
-        self.remove_command_push_button = getattr(self.main_window, 'pushButton_11')
-        self.add_command_push_button = getattr(self.main_window, 'pushButton_10')
-
-        self.command_name_line_edit = getattr(self.main_window, 'lineEdit_35')
-        self.save_command_push_button = getattr(self.main_window, 'pushButton_9')
-        self.command_line_edit = getattr(self.main_window, 'lineEdit_40')
-        self.send_command_push_button = getattr(self.main_window, 'pushButton_8')
-        self.terminal_plain_text_edit = getattr(self.main_window, 'plainTextEdit_2')
-        self.clear_terminal_push_button = getattr(self.main_window, 'pushButton_13')
-        return self
-
-    def show(self) -> None:
         self.update_port_popup_hookable_combo_box()
         self.on_connected_changed(False)
 
         self.on_profiles_model_changed(self.main_window_model.profiles)
         self.on_commands_model_changed(self.main_window_model.commands)
 
-        self.main_window.move(
-            QApplication.primaryScreen().availableGeometry().center() - self.main_window.rect().center())
+        self.port_popup_hookable_combo_box.setFocus()
 
-        self.main_window.show()
+    def show(self) -> None:
+        self.setup()
+        super().show()
 
     def update_port_popup_hookable_combo_box(self):
         origin: str = self.port_popup_hookable_combo_box.currentText()
@@ -342,6 +185,7 @@ class MainWindow(UI, sdk.Singleton):
     def on_refresh_push_button_clicked(self):
         if self.serial:
             self.serial.send('')
+            time.sleep(0.1)
             self.serial.send('RD')
 
     def on_remove_profile_push_button_clicked(self):
@@ -484,3 +328,8 @@ class MainWindow(UI, sdk.Singleton):
             return
         self.command_name_line_edit.setText(command.name)
         self.command_line_edit.setText(command.command)
+
+    def on_receive_serial_data(self, data: str):
+        self.terminal_plain_text_edit.moveCursor(QTextCursor.End)
+        self.terminal_plain_text_edit.insertPlainText(f"{data}\n")
+        self.terminal_plain_text_edit.moveCursor(QTextCursor.End)

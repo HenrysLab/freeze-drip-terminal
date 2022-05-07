@@ -1,8 +1,7 @@
-import multiprocessing
 import queue
 import signal
 import threading
-from typing import Callable, Optional
+from typing import Optional
 
 import serial.tools.list_ports
 import serial.tools.list_ports_common
@@ -18,12 +17,12 @@ class FreezeDripSerial:
     def __init__(
             self,
             port_name: str,
-            input_queue: Optional[multiprocessing.Queue] = None,
-            output_queue: Optional[multiprocessing.Queue] = None):
+            input_queue: Optional[queue.Queue] = None,
+            output_queue: Optional[queue.Queue] = None):
         signal.signal(signal.SIGTERM, self.signal_handler)
         self.serial: serial.Serial = serial.Serial(port_name, baudrate=115200)
-        self.input_queue: Optional[multiprocessing.Queue] = input_queue
-        self.output_queue: Optional[multiprocessing.Queue] = output_queue
+        self.input_queue: Optional[queue.Queue] = input_queue
+        self.output_queue: Optional[queue.Queue] = output_queue
         self.stopped: bool = False
         threading.Thread(target=self.receive_loop).start()
         threading.Thread(target=self.send_loop).start()
@@ -65,9 +64,9 @@ class SimpleFreezeDripSerialListener(QObject):
 class SimpleFreezeDripSerial:
     def __init__(self, port_name: str, on_receive_listeners: Optional[list[SimpleFreezeDripSerialListener]] = None):
         self.port_name: str = port_name
-        self.input_queue: Optional[multiprocessing.Queue] = multiprocessing.Queue()
-        self.output_queue: Optional[multiprocessing.Queue] = multiprocessing.Queue()
-        self.serial: Optional[multiprocessing.Process] = None
+        self.input_queue: Optional[queue.Queue] = queue.Queue()
+        self.output_queue: Optional[queue.Queue] = queue.Queue()
+        self.serial: Optional[FreezeDripSerial] = None
         self.stopped: bool = True
         self._on_receive_listeners: list[SimpleFreezeDripSerialListener] = list()
         if on_receive_listeners is not None:
@@ -79,10 +78,7 @@ class SimpleFreezeDripSerial:
     def open(self) -> 'SimpleFreezeDripSerial':
         self.stopped = False
         threading.Thread(target=self.receive_loop).start()
-        self.serial = multiprocessing.Process(
-            target=FreezeDripSerial,
-            args=(self.port_name, self.input_queue, self.output_queue))
-        self.serial.start()
+        self.serial = FreezeDripSerial(self.port_name, self.input_queue, self.output_queue)
         return self
 
     def receive_loop(self) -> None:
@@ -103,6 +99,6 @@ class SimpleFreezeDripSerial:
 
     def close(self) -> 'SimpleFreezeDripSerial':
         self.stopped = True
-        if self.serial and self.serial.is_alive():
-            self.serial.terminate()
+        if self.serial:
+            self.serial.close()
         return self

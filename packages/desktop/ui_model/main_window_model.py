@@ -216,27 +216,6 @@ class MainWindowModel(UIModel):
 
     def generate_default_commands(self) -> None:
         self.command_db.add(sdk.Command(
-            name="Profile 1",
-            command="#B,60,RBV,78,CBV,78,S,05,H,3C,T,0A,U,14,L,000A,D,003C,T1,0190,T2,0172,T3,0140,S1,001E,S2,003C,S3,003C,S4,001E$"))
-        self.command_db.add(sdk.Command(
-            name="Profile 2",
-            command="#B,20,RBV,78,CBV,0F,S,0A,H,14,T,0A,U,14,L,001E,D,0002,T1,02BC,T2,028A,T3,0258,S1,0005,S2,0005,S3,000A,S4,000A$"))
-        self.command_db.add(sdk.Command(
-            name="Profile 3",
-            command="#B,20,RBV,78,CBV,0F,S,0A,H,0A,T,0A,U,14,L,001E,D,0002,T1,02EE,T2,02BC,T3,028A,S1,0005,S2,0005,S3,000A,S4,000A$"))
-        self.command_db.add(sdk.Command(
-            name="Profile 4",
-            command="#B,20,RBV,78,CBV,0F,S,0A,H,0A,T,0A,U,14,L,001E,D,0002,T1,0320,T2,02EE,T3,02BC,S1,0005,S2,0005,S3,000A,S4,000A$"))
-        self.command_db.add(sdk.Command(
-            name="Profile 5",
-            command="#B,20,RBV,78,CBV,0F,S,0A,H,0A,T,0A,U,14,L,001E,D,0002,T1,0352,T2,0320,T3,02EE,S1,0005,S2,0005,S3,000A,S4,000A$"))
-        self.command_db.add(sdk.Command(
-            name="Profile 6",
-            command="#B,20,RBV,78,CBV,0F,S,0A,H,0A,T,0A,U,14,L,001E,D,0002,T1,0384,T2,0352,T3,0320,S1,0005,S2,0005,S3,000A,S4,000A$"))
-        self.command_db.add(sdk.Command(
-            name="Profile 7",
-            command="#B,20,RBV,78,CBV,0F,S,0A,H,0A,T,0A,U,14,L,001E,D,0002,T1,03B6,T2,0384,T3,0352,S1,0005,S2,0005,S3,000A,S4,000A$"))
-        self.command_db.add(sdk.Command(
             name="Trigger immediately (countdown 0 second)",
             command="CD0"))
         self.command_db.add(sdk.Command(
