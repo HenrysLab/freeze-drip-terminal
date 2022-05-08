@@ -215,6 +215,8 @@ class QMainWindowExt(QMainWindow):
 
         if self.serial:
             self.serial.send('RD')
+            time.sleep(0.1)
+            self.serial.send('CD0')
 
     def on_remove_profile_push_button_clicked(self):
         self.main_window_model.remove_profile()
@@ -224,9 +226,10 @@ class QMainWindowExt(QMainWindow):
         self.profile_list_widget.setCurrentRow(self.profile_list_widget.count() - 1)
 
     def on_send_profile_push_button_clicked(self):
-        self.serial.send(self.serial_parser.parse_profile(self.main_window_model.profile))
-        time.sleep(0.1)
-        self.serial.send('CD0')
+        if self.serial:
+            self.serial.send(self.serial_parser.parse_profile(self.main_window_model.profile))
+            time.sleep(0.1)
+            self.serial.send('CD0')
 
     def on_save_profile_push_button_clicked(self):
         self.main_window_model.save_profile()
