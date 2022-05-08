@@ -89,6 +89,7 @@ class QMainWindowExt(QMainWindow):
         self.expected_setup_duration_line_edit.textChanged.connect(
             self.on_expected_setup_duration_line_edit_text_changed)
 
+        self.send_profile_push_button.clicked.connect(self.on_send_profile_push_button_clicked)
         self.save_profile_push_button.clicked.connect(self.on_save_profile_push_button_clicked)
 
         self.main_window_model.add_on_commands_changed_listener(self.on_commands_model_changed)
@@ -220,6 +221,9 @@ class QMainWindowExt(QMainWindow):
     def on_add_profile_push_button_clicked(self):
         self.main_window_model.create_profile()
         self.profile_list_widget.setCurrentRow(self.profile_list_widget.count() - 1)
+
+    def on_send_profile_push_button_clicked(self):
+        self.serial.send(self.serial_parser.parse_profile(self.main_window_model.profile))
 
     def on_save_profile_push_button_clicked(self):
         self.main_window_model.save_profile()

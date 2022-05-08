@@ -9,6 +9,7 @@ import serial.tools.list_ports
 import serial.tools.list_ports_common
 
 from .data import Profile
+from .util import floatable
 
 
 @dataclasses.dataclass
@@ -60,6 +61,8 @@ class FreezeDripSerialParser:
             if not self.status:
                 return
             bat_volt: str = line.removeprefix('Current Battery Voltage : ').removesuffix(' Volts')
+            if not floatable(bat_volt) or int(float(bat_volt) * 10) == 0xFF:
+                return
             return FreezeDripSerialData(rts_battery_volt=bat_volt) if int(self.status) & 0b1000_0000 \
                 else FreezeDripSerialData(cd_battery_volt=bat_volt)
 
@@ -105,6 +108,27 @@ class FreezeDripSerialParser:
         if line.startswith('Setup signal interval : '):
             return FreezeDripSerialData(
                 setup_duration=line.removeprefix('Setup signal interval : ').removesuffix(' Mins'))
+
+    def parse_profile(self, profile: Profile) -> str:
+        profile_str: str = '#'
+        profile_str += 'B' + ',' + f"{int(float(profile.low_battery_thold)*10):02X}" + ','
+        profile_str += 'RBV' + ',' + 'FF' + ','
+        profile_str += 'CBV' + ',' + 'FF' + ','
+        profile_str += 'S' + ',' + f"{int(profile.setup_duration):02X}" + ','
+        profile_str += 'H' + ',' + f"{int(profile.heartbeat_interval):02X}" + ','
+        profile_str += 'T' + ',' + f"{int(float(profile.temp_sensitivity)*10):02X}" + ','
+        profile_str += 'U' + ',' + f"{int(float(profile.scale_of_pump_on_time)*10):02X}" + ','
+        profile_str += 'L' + ',' + f"{int(profile.lost_alarm_interval):04X}" + ','
+        profile_str += 'D' + ',' + f"{int(profile.temp_detection_interval):04X}" + ','
+        profile_str += 'T1' + ',' + f"{int(float(profile.temp_lvl_2_thold)*10):04X}" + ','
+        profile_str += 'T2' + ',' + f"{int(float(profile.temp_lvl_3_thold)*10):04X}" + ','
+        profile_str += 'T3' + ',' + f"{int(float(profile.temp_lvl_4_thold)*10):04X}" + ','
+        profile_str += 'S1' + ',' + f"{int(profile.lvl_2_pump_on_time):04X}" + ','
+        profile_str += 'S2' + ',' + f"{int(profile.lvl_2_pump_off_time):04X}" + ','
+        profile_str += 'S3' + ',' + f"{int(profile.lvl_3_pump_on_time):04X}" + ','
+        profile_str += 'S4' + ',' + f"{int(profile.lvl_3_pump_off_time):04X}"
+        profile_str += '$'
+        return profile_str
 
 
 class FreezeDripSerial:
