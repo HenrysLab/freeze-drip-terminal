@@ -3,10 +3,9 @@ import signal
 import threading
 from typing import Optional
 
+from PySide6.QtCore import QObject, Signal
 import serial.tools.list_ports
 import serial.tools.list_ports_common
-
-from PySide6.QtCore import QObject, Signal
 
 
 def get_available_serial_ports() -> list[serial.tools.list_ports_common.ListPortInfo]:

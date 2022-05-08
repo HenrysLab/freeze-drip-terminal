@@ -1,9 +1,7 @@
-import dataclasses
 import pathlib
 from typing import Callable, Optional
 
 import sdk
-
 from .ui_model import UIModel
 
 
