@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime
 import importlib.resources
 import pathlib
+import time
 from typing import Optional, Union
 
 import PySide6.QtXml  # This is only for PyInstaller to process properly
@@ -224,6 +225,8 @@ class QMainWindowExt(QMainWindow):
 
     def on_send_profile_push_button_clicked(self):
         self.serial.send(self.serial_parser.parse_profile(self.main_window_model.profile))
+        time.sleep(0.1)
+        self.serial.send('CD0')
 
     def on_save_profile_push_button_clicked(self):
         self.main_window_model.save_profile()

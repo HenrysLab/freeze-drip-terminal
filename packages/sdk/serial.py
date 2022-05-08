@@ -45,15 +45,15 @@ class FreezeDripSerialParser:
             self.status = line.removeprefix('Status : ').removesuffix(' Hex')
             return FreezeDripSerialData(
                 status=self.status,
-                heartbeat_flag=str(bool(int(self.status) & 0b1)),
-                low_temp_flag=str(bool(int(self.status) & 0b10)),
-                low_bat_flag=str(bool(int(self.status) & 0b100)),
-                setup_flag=str(bool(int(self.status) & 0b1_0000)))
+                heartbeat_flag=str(bool(int(self.status, 16) & 0b1)),
+                low_temp_flag=str(bool(int(self.status, 16) & 0b10)),
+                low_bat_flag=str(bool(int(self.status, 16) & 0b100)),
+                setup_flag=str(bool(int(self.status, 16) & 0b1_0000)))
         if line.startswith('Fahrenheit Temperature : '):
             return FreezeDripSerialData(
                 temp=line.removeprefix('Fahrenheit Temperature : ').removesuffix(" 'F"))
         if line.startswith('Received Battery Value : '):
-            if not (self.status and int(self.status) & 0b1000_0000):
+            if not (self.status and int(self.status, 16) & 0b1000_0000):
                 return
             return FreezeDripSerialData(
                 rts_battery_volt=line.removeprefix('Received Battery Value : ').removesuffix(' Volts'))
@@ -63,7 +63,7 @@ class FreezeDripSerialParser:
             bat_volt: str = line.removeprefix('Current Battery Voltage : ').removesuffix(' Volts')
             if not floatable(bat_volt) or int(float(bat_volt) * 10) == 0xFF:
                 return
-            return FreezeDripSerialData(rts_battery_volt=bat_volt) if int(self.status) & 0b1000_0000 \
+            return FreezeDripSerialData(rts_battery_volt=bat_volt) if int(self.status, 16) & 0b1000_0000 \
                 else FreezeDripSerialData(cd_battery_volt=bat_volt)
 
         if line.startswith('Temp. level 2 threshold : '):
