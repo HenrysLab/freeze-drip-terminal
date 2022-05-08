@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+import datetime
 import importlib.resources
 import pathlib
-import time
-from typing import Optional
+from typing import Optional, Union
 
 import PySide6.QtXml  # This is only for PyInstaller to process properly
 from PySide6.QtCore import Qt
@@ -28,7 +28,8 @@ class QMainWindowExt(QMainWindow):
 
         self.serial: Optional[sdk.SimpleFreezeDripSerial] = None
         self.seirla_receiver: sdk.SimpleFreezeDripSerialListener = sdk.SimpleFreezeDripSerialListener()
-        self.seirla_receiver.signal.connect(self.on_receive_serial_data)
+        self.seirla_receiver.signal.connect(self.on_receive_serial_line)
+        self.serial_parser: sdk.FreezeDripSerialParser = sdk.FreezeDripSerialParser()
 
     def closeEvent(self, event: QCloseEvent) -> None:
         if self.serial:
@@ -185,9 +186,32 @@ class QMainWindowExt(QMainWindow):
         self.main_window_model.connected = False
 
     def on_refresh_push_button_clicked(self):
+        self.status_code_line_edit.setText("")
+        self.current_low_battery_thold_line_edit.setText("")
+        self.cd_bat_volt_line_edit.setText("")
+        self.rts_bat_volt_line_edit.setText("")
+        self.heartbeat_flag_line_edit.setText("")
+        self.low_temp_flag_line_edit.setText("")
+        self.low_bat_flag_line_edit.setText("")
+        self.setup_flag_line_edit.setText("")
+
+        self.updated_at_line_edit.setText("")
+        self.current_temp_lvl_2_thold_line_edit.setText("")
+        self.current_temp_lvl_3_thold_line_edit.setText("")
+        self.current_temp_lvl_4_thold_line_edit.setText("")
+        self.current_temp_sensitivity_line_edit.setText("")
+        self.current_temp_detection_interval_line_edit.setText("")
+        self.current_scale_of_pump_on_time_line_edit.setText("")
+        self.current_lvl_2_pump_on_time_line_edit.setText("")
+        self.current_lvl_2_pump_off_time_line_edit.setText("")
+        self.current_lvl_3_pump_on_time_line_edit.setText("")
+        self.current_lvl_3_pump_off_time_line_edit.setText("")
+        self.current_low_battery_thold_line_edit.setText("")
+        self.current_lost_alarm_interval_line_edit.setText("")
+        self.current_heartbeat_interval_line_edit.setText("")
+        self.current_setup_duration_line_edit.setText("")
+
         if self.serial:
-            self.serial.send('')
-            time.sleep(0.1)
             self.serial.send('RD')
 
     def on_remove_profile_push_button_clicked(self):
@@ -361,7 +385,57 @@ class QMainWindowExt(QMainWindow):
         self.command_name_line_edit.setText(command.name)
         self.command_line_edit.setText(command.command)
 
-    def on_receive_serial_data(self, data: str):
+    def on_receive_serial_line(self, line: str):
         self.terminal_plain_text_edit.moveCursor(QTextCursor.End)
-        self.terminal_plain_text_edit.insertPlainText(f"{data}\n")
+        self.terminal_plain_text_edit.insertPlainText(f"{line}\n")
         self.terminal_plain_text_edit.moveCursor(QTextCursor.End)
+
+        data: Optional[Union[sdk.FreezeDripSerialData, sdk.FreezeDripSerialResponse]] = \
+            self.serial_parser.parse_line(line)
+
+        if isinstance(data, sdk.FreezeDripSerialData):
+            if data.status:
+                self.status_code_line_edit.setText(data.status)
+            if data.temp:
+                self.temp_line_edit.setText(str(float(data.temp)))
+            if data.cd_battery_volt:
+                self.cd_bat_volt_line_edit.setText(data.cd_battery_volt)
+            if data.rts_battery_volt:
+                self.rts_bat_volt_line_edit.setText(data.rts_battery_volt)
+            if data.heartbeat_flag:
+                self.heartbeat_flag_line_edit.setText(data.heartbeat_flag)
+            if data.low_temp_flag:
+                self.low_temp_flag_line_edit.setText(data.low_temp_flag)
+            if data.low_bat_flag:
+                self.low_bat_flag_line_edit.setText(data.low_bat_flag)
+            if data.setup_flag:
+                self.setup_flag_line_edit.setText(data.setup_flag)
+            if data.temp_lvl_2_thold:
+                self.current_temp_lvl_2_thold_line_edit.setText(str(float(data.temp_lvl_2_thold)))
+            if data.temp_lvl_3_thold:
+                self.current_temp_lvl_3_thold_line_edit.setText(str(float(data.temp_lvl_3_thold)))
+            if data.temp_lvl_4_thold:
+                self.current_temp_lvl_4_thold_line_edit.setText(str(float(data.temp_lvl_4_thold)))
+            if data.temp_sensitivity:
+                self.current_temp_sensitivity_line_edit.setText(str(float(data.temp_sensitivity)))
+            if data.temp_detection_interval:
+                self.current_temp_detection_interval_line_edit.setText(str(int(data.temp_detection_interval)))
+            if data.scale_of_pump_on_time:
+                self.current_scale_of_pump_on_time_line_edit.setText(str(float(data.scale_of_pump_on_time)))
+            if data.lvl_2_pump_on_time:
+                self.current_lvl_2_pump_on_time_line_edit.setText(str(int(data.lvl_2_pump_on_time)))
+            if data.lvl_2_pump_off_time:
+                self.current_lvl_2_pump_off_time_line_edit.setText(str(int(data.lvl_2_pump_off_time)))
+            if data.lvl_3_pump_on_time:
+                self.current_lvl_3_pump_on_time_line_edit.setText(str(int(data.lvl_3_pump_on_time)))
+            if data.lvl_3_pump_off_time:
+                self.current_lvl_3_pump_off_time_line_edit.setText(str(int(data.lvl_3_pump_off_time)))
+            if data.low_battery_thold:
+                self.current_low_battery_thold_line_edit.setText(str(float(data.low_battery_thold)))
+            if data.lost_alarm_interval:
+                self.current_lost_alarm_interval_line_edit.setText(str(int(data.lost_alarm_interval)))
+            if data.heartbeat_interval:
+                self.current_heartbeat_interval_line_edit.setText(str(int(data.heartbeat_interval)))
+            if data.setup_duration:
+                self.current_setup_duration_line_edit.setText(str(int(data.setup_duration)))
+            self.updated_at_line_edit.setText(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))

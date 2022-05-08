@@ -1,15 +1,110 @@
+import dataclasses
 import queue
 import signal
 import threading
-from typing import Optional
+from typing import Optional, Union
 
 from PySide6.QtCore import QObject, Signal
 import serial.tools.list_ports
 import serial.tools.list_ports_common
 
+from .data import Profile
+
+
+@dataclasses.dataclass
+class FreezeDripSerialResponse:
+    response: str
+
+
+@dataclasses.dataclass
+class FreezeDripSerialData(Profile):
+    status: Optional[str] = None
+    temp: Optional[str] = None
+    cd_battery_volt: Optional[str] = None
+    rts_battery_volt: Optional[str] = None
+    heartbeat_flag: Optional[str] = None
+    low_temp_flag: Optional[str] = None
+    low_bat_flag: Optional[str] = None
+    setup_flag: Optional[str] = None
+
 
 def get_available_serial_ports() -> list[serial.tools.list_ports_common.ListPortInfo]:
     return serial.tools.list_ports.comports()
+
+
+class FreezeDripSerialParser:
+    def __init__(self):
+        self.status: str = ''
+
+    def parse_line(self, line: str) -> Optional[Union[FreezeDripSerialData, FreezeDripSerialResponse]]:
+        if line in ['OK', 'ERROR']:
+            return FreezeDripSerialResponse(line)
+
+        if line.startswith('Status : '):
+            self.status = line.removeprefix('Status : ').removesuffix(' Hex')
+            return FreezeDripSerialData(
+                status=self.status,
+                heartbeat_flag=str(bool(int(self.status) & 0b1)),
+                low_temp_flag=str(bool(int(self.status) & 0b10)),
+                low_bat_flag=str(bool(int(self.status) & 0b100)),
+                setup_flag=str(bool(int(self.status) & 0b1_0000)))
+        if line.startswith('Fahrenheit Temperature : '):
+            return FreezeDripSerialData(
+                temp=line.removeprefix('Fahrenheit Temperature : ').removesuffix(" 'F"))
+        if line.startswith('Received Battery Value : '):
+            if not (self.status and int(self.status) & 0b1000_0000):
+                return
+            return FreezeDripSerialData(
+                rts_battery_volt=line.removeprefix('Received Battery Value : ').removesuffix(' Volts'))
+        if line.startswith('Current Battery Voltage : '):
+            if not self.status:
+                return
+            bat_volt: str = line.removeprefix('Current Battery Voltage : ').removesuffix(' Volts')
+            return FreezeDripSerialData(rts_battery_volt=bat_volt) if int(self.status) & 0b1000_0000 \
+                else FreezeDripSerialData(cd_battery_volt=bat_volt)
+
+        if line.startswith('Temp. level 2 threshold : '):
+            return FreezeDripSerialData(
+                temp_lvl_2_thold=line.removeprefix('Temp. level 2 threshold : ').removesuffix(" 'F"))
+        if line.startswith('Temp. level 3 threshold : '):
+            return FreezeDripSerialData(
+                temp_lvl_3_thold=line.removeprefix('Temp. level 3 threshold : ').removesuffix(" 'F"))
+        if line.startswith('Temp. level 4 threshold : '):
+            return FreezeDripSerialData(
+                temp_lvl_4_thold=line.removeprefix('Temp. level 4 threshold : ').removesuffix(" 'F"))
+        if line.startswith('Temperature sensitivity : '):
+            return FreezeDripSerialData(
+                temp_sensitivity=line.removeprefix('Temperature sensitivity : ').removesuffix(" 'F"))
+        if line.startswith('Temp. detection interval : '):
+            return FreezeDripSerialData(
+                temp_detection_interval=line.removeprefix('Temp. detection interval : ').removesuffix(' Secs'))
+        if line.startswith('Scale of S1 and S3 : '):
+            return FreezeDripSerialData(
+                scale_of_pump_on_time=line.removeprefix('Scale of S1 and S3 : ').removesuffix(' X'))
+        if line.startswith('Pump on time of level 2 : '):
+            return FreezeDripSerialData(
+                lvl_2_pump_on_time=line.removeprefix('Pump on time of level 2 : ').removesuffix(' Secs'))
+        if line.startswith('Pump off time of level 2 : '):
+            return FreezeDripSerialData(
+                lvl_2_pump_off_time=line.removeprefix('Pump off time of level 2 : ').removesuffix(' Secs'))
+        if line.startswith('Pump on time of level 3 : '):
+            return FreezeDripSerialData(
+                lvl_3_pump_on_time=line.removeprefix('Pump on time of level 3 : ').removesuffix(' Secs'))
+        if line.startswith('Pump off time of level 3 : '):
+            return FreezeDripSerialData(
+                lvl_3_pump_off_time=line.removeprefix('Pump off time of level 3 : ').removesuffix(' Secs'))
+        if line.startswith('Low Battery threshold : '):
+            return FreezeDripSerialData(
+                low_battery_thold=line.removeprefix('Low Battery threshold : ').removesuffix(' Volts'))
+        if line.startswith('Interval of the Lost alarm : '):
+            return FreezeDripSerialData(
+                lost_alarm_interval=line.removeprefix('Interval of the Lost alarm : ').removesuffix(' Secs'))
+        if line.startswith('H.B./L. Bat. interval : '):
+            return FreezeDripSerialData(
+                heartbeat_interval=line.removeprefix('H.B./L. Bat. interval : ').removesuffix(' Mins'))
+        if line.startswith('Setup signal interval : '):
+            return FreezeDripSerialData(
+                setup_duration=line.removeprefix('Setup signal interval : ').removesuffix(' Mins'))
 
 
 class FreezeDripSerial:
@@ -87,7 +182,7 @@ class SimpleFreezeDripSerial:
     def receive_loop(self) -> None:
         while not self.stopped:
             try:
-                input_: str = self.input_queue.get(timeout=1).decode(errors='ignore').rstrip()
+                input_: str = self.input_queue.get(timeout=1).decode(errors='ignore').strip()
             except queue.Empty:
                 continue
             listener: SimpleFreezeDripSerialListener
