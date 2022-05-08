@@ -173,6 +173,8 @@ class QMainWindowExt(QMainWindow):
             self.serial = sdk.SimpleFreezeDripSerial(
                 self.port_popup_hookable_combo_box.currentText(),
                 [self.seirla_receiver]).open()
+            if not self.serial:
+                self.on_connected_changed(False)
         elif self.serial:
             self.serial.close()
 

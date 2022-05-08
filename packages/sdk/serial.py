@@ -23,8 +23,8 @@ class FreezeDripSerial:
         self.input_queue: Optional[queue.Queue] = input_queue
         self.output_queue: Optional[queue.Queue] = output_queue
         self.stopped: bool = False
-        threading.Thread(target=self.receive_loop).start()
-        threading.Thread(target=self.send_loop).start()
+        threading.Thread(target=self.receive_loop, daemon=True).start()
+        threading.Thread(target=self.send_loop, daemon=True).start()
 
     def signal_handler(self, signum: int, frame):
         self.stopped = True
@@ -74,10 +74,14 @@ class SimpleFreezeDripSerial:
     def add_on_receive_listener(self, listener: SimpleFreezeDripSerialListener) -> None:
         self._on_receive_listeners.append(listener)
 
-    def open(self) -> 'SimpleFreezeDripSerial':
+    def open(self) -> Optional['SimpleFreezeDripSerial']:
         self.stopped = False
-        threading.Thread(target=self.receive_loop).start()
-        self.serial = FreezeDripSerial(self.port_name, self.input_queue, self.output_queue)
+        threading.Thread(target=self.receive_loop, daemon=True).start()
+        try:
+            self.serial = FreezeDripSerial(self.port_name, self.input_queue, self.output_queue)
+        except serial.serialutil.SerialException:
+            self.close()
+            return
         return self
 
     def receive_loop(self) -> None:
