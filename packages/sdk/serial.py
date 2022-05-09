@@ -63,8 +63,8 @@ class FreezeDripSerialParser:
             bat_volt: str = line.removeprefix('Current Battery Voltage : ').removesuffix(' Volts')
             if not floatable(bat_volt) or int(float(bat_volt) * 10) == 0xFF:
                 return
-            return FreezeDripSerialData(rts_battery_volt=bat_volt) if int(self.status, 16) & 0b1000_0000 \
-                else FreezeDripSerialData(cd_battery_volt=bat_volt)
+            return FreezeDripSerialData(cd_battery_volt=bat_volt) if int(self.status, 16) & 0b1000_0000 \
+                else FreezeDripSerialData(rts_battery_volt=bat_volt)
 
         if line.startswith('Temp. level 2 threshold : '):
             return FreezeDripSerialData(

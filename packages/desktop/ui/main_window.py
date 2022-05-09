@@ -408,10 +408,10 @@ class QMainWindowExt(QMainWindow):
                 self.status_code_line_edit.setText(data.status)
             if data.temp:
                 self.temp_line_edit.setText(str(float(data.temp)))
-            if data.cd_battery_volt:
-                self.cd_bat_volt_line_edit.setText(data.cd_battery_volt)
             if data.rts_battery_volt:
                 self.rts_bat_volt_line_edit.setText(data.rts_battery_volt)
+            if data.cd_battery_volt:
+                self.cd_bat_volt_line_edit.setText(data.cd_battery_volt)
             if data.heartbeat_flag:
                 self.heartbeat_flag_line_edit.setText(data.heartbeat_flag)
             if data.low_temp_flag:
