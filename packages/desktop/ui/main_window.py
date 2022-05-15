@@ -52,9 +52,11 @@ class QMainWindowExt(QMainWindow):
         self.port_disconnect_push_button.clicked.connect(self.on_port_disconnect_push_button_clicked)
 
         self.refresh_push_button.clicked.connect(self.on_refresh_push_button_clicked)
+        self.copy_to_profile_push_button.clicked.connect(self.on_copy_to_profile_push_button_clicked)
 
         self.main_window_model.add_on_profiles_changed_listener(self.on_profiles_model_changed)
         self.profile_list_widget.currentItemChanged.connect(self.on_profile_list_widget_current_item_changed)
+        self.profile_list_widget.itemClicked.connect(self.on_profile_list_widget_item_clicked)
 
         self.remove_profile_push_button.clicked.connect(self.on_remove_profile_push_button_clicked)
         self.add_profile_push_button.clicked.connect(self.on_add_profile_push_button_clicked)
@@ -95,6 +97,7 @@ class QMainWindowExt(QMainWindow):
 
         self.main_window_model.add_on_commands_changed_listener(self.on_commands_model_changed)
         self.command_list_widget.currentItemChanged.connect(self.on_command_list_widget_current_item_changed)
+        self.command_list_widget.itemClicked.connect(self.on_command_list_widget_item_clicked)
 
         self.main_window_model.add_on_changed_observer(self.on_command_model_changed, 'command')
         self.command_name_line_edit.textChanged.connect(
@@ -141,6 +144,7 @@ class QMainWindowExt(QMainWindow):
             sdk.get_available_serial_ports() and not connected)
         self.port_disconnect_push_button.setEnabled(connected)
         self.refresh_push_button.setEnabled(connected)
+        self.copy_to_profile_push_button.setEnabled(connected)
         self.send_profile_push_button.setEnabled(connected)
         self.send_command_push_button.setEnabled(connected)
         self.update_port_popup_hookable_combo_box()
@@ -218,6 +222,22 @@ class QMainWindowExt(QMainWindow):
             time.sleep(0.1)
             self.serial.send('CD0')
 
+    def on_copy_to_profile_push_button_clicked(self):
+        self.expected_temp_lvl_2_thold_line_edit.setText(self.current_temp_lvl_2_thold_line_edit.text())
+        self.expected_temp_lvl_3_thold_line_edit.setText(self.current_temp_lvl_3_thold_line_edit.text())
+        self.expected_temp_lvl_4_thold_line_edit.setText(self.current_temp_lvl_4_thold_line_edit.text())
+        self.expected_temp_sensitivity_line_edit.setText(self.current_temp_sensitivity_line_edit.text())
+        self.expected_temp_detection_interval_line_edit.setText(self.current_temp_detection_interval_line_edit.text())
+        self.expected_scale_of_pump_on_time_line_edit.setText(self.current_scale_of_pump_on_time_line_edit.text())
+        self.expected_lvl_2_pump_on_time_line_edit.setText(self.current_lvl_2_pump_on_time_line_edit.text())
+        self.expected_lvl_2_pump_off_time_line_edit.setText(self.current_lvl_2_pump_off_time_line_edit.text())
+        self.expected_lvl_3_pump_on_time_line_edit.setText(self.current_lvl_3_pump_on_time_line_edit.text())
+        self.expected_lvl_3_pump_off_time_line_edit.setText(self.current_lvl_3_pump_off_time_line_edit.text())
+        self.expected_low_battery_thold_line_edit.setText(self.current_low_battery_thold_line_edit.text())
+        self.expected_lost_alarm_interval_line_edit.setText(self.current_lost_alarm_interval_line_edit.text())
+        self.expected_heartbeat_interval_line_edit.setText(self.current_heartbeat_interval_line_edit.text())
+        self.expected_setup_duration_line_edit.setText(self.current_setup_duration_line_edit.text())
+
     def on_remove_profile_push_button_clicked(self):
         self.main_window_model.remove_profile()
 
@@ -246,6 +266,9 @@ class QMainWindowExt(QMainWindow):
             self, selected: QListWidgetItem, deselected: QListWidgetItem) -> None:
         if self.profile_list_widget.currentRow() >= 0:
             self.main_window_model.profile = self.main_window_model.profiles[self.profile_list_widget.currentRow()]
+
+    def on_profile_list_widget_item_clicked(self, item: QListWidgetItem):
+        self.main_window_model.profile = self.main_window_model.profiles[self.profile_list_widget.currentRow()]
 
     def on_profile_model_changed(self, profile: Optional[sdk.Profile]) -> None:
         if not profile:
@@ -388,6 +411,9 @@ class QMainWindowExt(QMainWindow):
             self, selected: QListWidgetItem, deselected: QListWidgetItem) -> None:
         if self.command_list_widget.currentRow() >= 0:
             self.main_window_model.command = self.main_window_model.commands[self.command_list_widget.currentRow()]
+
+    def on_command_list_widget_item_clicked(self, item: QListWidgetItem):
+        self.main_window_model.command = self.main_window_model.commands[self.command_list_widget.currentRow()]
 
     def on_command_model_changed(self, command: Optional[sdk.Command]) -> None:
         if not command:

@@ -1978,6 +1978,34 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="copy_to_profile_push_button">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Ignored">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>120</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>↧</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -2326,6 +2354,7 @@
   <tabstop>expected_heartbeat_interval_line_edit</tabstop>
   <tabstop>expected_setup_duration_line_edit</tabstop>
   <tabstop>refresh_push_button</tabstop>
+  <tabstop>copy_to_profile_push_button</tabstop>
   <tabstop>send_profile_push_button</tabstop>
   <tabstop>save_profile_push_button</tabstop>
   <tabstop>command_list_widget</tabstop>
