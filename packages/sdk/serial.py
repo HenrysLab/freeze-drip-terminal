@@ -52,11 +52,14 @@ class FreezeDripSerialParser:
         if line.startswith('Fahrenheit Temperature : '):
             return FreezeDripSerialData(
                 temp=line.removeprefix('Fahrenheit Temperature : ').removesuffix(" 'F"))
-        if line.startswith('Received Battery Value : '):
+        if line.startswith('Received Battery Value: '):
+            print(1)
             if not (self.status and int(self.status, 16) & 0b1000_0000):
+                print(2)
                 return
+            print(3)
             return FreezeDripSerialData(
-                rts_battery_volt=line.removeprefix('Received Battery Value : ').removesuffix(' Volts'))
+                rts_battery_volt=line.removeprefix('Received Battery Value: ').removesuffix(' Volts'))
         if line.startswith('Current Battery Voltage : '):
             if not self.status:
                 return
