@@ -105,8 +105,10 @@ class FreezeDripSerialParser:
             return FreezeDripSerialData(
                 lvl_3_pump_off_time=line.removeprefix('Pump off time of level 3 : ').removesuffix(' Secs'))
         if line.startswith('Low Battery threshold : '):
-            return FreezeDripSerialData(
-                low_battery_thold=line.removeprefix('Low Battery threshold : ').removesuffix(' Volts'))
+            low_battery_thold: str = line.removeprefix('Low Battery threshold : ').removesuffix(' Volts')
+            if self.is_cd():
+                low_battery_thold = str(float(low_battery_thold) * 2)
+            return FreezeDripSerialData(low_battery_thold=low_battery_thold)
         if line.startswith('Interval of the Lost alarm : '):
             return FreezeDripSerialData(
                 lost_alarm_interval=line.removeprefix('Interval of the Lost alarm : ').removesuffix(' Secs'))
