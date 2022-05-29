@@ -1161,7 +1161,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Low Battery thold (3 ~ 15, V)</string>
+            <string>Low Battery thold (3 ~ 6, V)</string>
            </property>
           </widget>
          </item>

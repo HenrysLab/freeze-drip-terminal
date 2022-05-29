@@ -154,7 +154,7 @@ class MainWindowModel(UIModel):
     def is_profile_low_battery_thold_valid(self) -> bool:
         if not (isinstance(self.profile.low_battery_thold, str) and
                 sdk.floatable(self.profile.low_battery_thold) and
-                3 <= float(self.profile.low_battery_thold) <= 15):
+                3 <= float(self.profile.low_battery_thold) <= 6):
             return False
         return True
 
