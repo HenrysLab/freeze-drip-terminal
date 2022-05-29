@@ -37,6 +37,14 @@ class FreezeDripSerialParser:
     def __init__(self):
         self.status: str = ''
 
+    def is_cd(self) -> Optional[bool]:
+        if self.status:
+            return bool(int(self.status, 16) & 0b1000_0000)
+
+    def is_rts(self) -> Optional[bool]:
+        if self.status:
+            return not self.is_cd()
+
     def parse_line(self, line: str) -> Optional[Union[FreezeDripSerialData, FreezeDripSerialResponse]]:
         if line in ['OK', 'ERROR']:
             return FreezeDripSerialResponse(line)
@@ -53,11 +61,8 @@ class FreezeDripSerialParser:
             return FreezeDripSerialData(
                 temp=line.removeprefix('Fahrenheit Temperature : ').removesuffix(" 'F"))
         if line.startswith('Received Battery Value: '):
-            print(1)
-            if not (self.status and int(self.status, 16) & 0b1000_0000):
-                print(2)
+            if not self.is_cd():
                 return
-            print(3)
             return FreezeDripSerialData(
                 rts_battery_volt=line.removeprefix('Received Battery Value: ').removesuffix(' Volts'))
         if line.startswith('Current Battery Voltage : '):
@@ -66,7 +71,7 @@ class FreezeDripSerialParser:
             bat_volt: str = line.removeprefix('Current Battery Voltage : ').removesuffix(' Volts')
             if not floatable(bat_volt) or int(float(bat_volt) * 10) == 0xFF:
                 return
-            return FreezeDripSerialData(cd_battery_volt=bat_volt) if int(self.status, 16) & 0b1000_0000 \
+            return FreezeDripSerialData(cd_battery_volt=bat_volt) if self.is_cd() \
                 else FreezeDripSerialData(rts_battery_volt=bat_volt)
 
         if line.startswith('Temp. level 2 threshold : '):
