@@ -1,3 +1,4 @@
 from .main_window import QMainWindowExt
 from .popup_hookable_combox import QPopupHookableComboBox
+from .received_form import QReceivedForm
 from .select_all_on_focus_line_edit import QSelectAllOnFocusLineEdit

@@ -18,6 +18,7 @@ import serial.tools.list_ports
 import serial.tools.list_ports_common
 
 from .popup_hookable_combox import QPopupHookableComboBox
+from .received_form import QReceivedForm
 from .. import ui_model
 
 
@@ -32,12 +33,16 @@ class QMainWindowExt(QMainWindow):
         self.seirla_receiver.signal.connect(self.on_receive_serial_line)
         self.serial_parser: sdk.FreezeDripSerialParser = sdk.FreezeDripSerialParser()
 
+        self.received_form: Optional[QReceivedForm] = None
+
     def closeEvent(self, event: QCloseEvent) -> None:
         if self.serial:
             self.serial.close()
         super().closeEvent(event)
 
-    def setup(self) -> None:
+    def setup(self, received_form: QReceivedForm) -> None:
+        self.received_form = received_form
+
         self.setWindowTitle(f"{self.windowTitle()} {sdk.VERSION}")
 
         app_icon: pathlib.Path
@@ -112,6 +117,8 @@ class QMainWindowExt(QMainWindow):
 
         self.terminal_plain_text_edit.textChanged.connect(self.on_terminal_plain_text_edit_text_changed)
         self.clear_terminal_push_button.clicked.connect(self.on_clear_terminal_push_button_clicked)
+        self.show_hide_external_terminal_push_button.clicked.connect(
+            self.on_show_hide_external_terminal_push_button_clicked)
 
         self.update_port_popup_hookable_combo_box()
         self.on_connected_changed(False)
@@ -120,10 +127,6 @@ class QMainWindowExt(QMainWindow):
         self.on_commands_model_changed(self.main_window_model.commands)
 
         self.port_popup_hookable_combo_box.setFocus()
-
-    def show(self) -> None:
-        self.setup()
-        super().show()
 
     def update_port_popup_hookable_combo_box(self):
         origin: str = self.port_popup_hookable_combo_box.currentText()
@@ -175,6 +178,7 @@ class QMainWindowExt(QMainWindow):
         self.current_setup_duration_line_edit.setEnabled(connected)
 
         self.terminal_plain_text_edit.setEnabled(connected)
+        self.received_form.terminal_plain_text_edit.setEnabled(connected)
 
         if connected:
             self.serial = sdk.SimpleFreezeDripSerial(
@@ -246,10 +250,11 @@ class QMainWindowExt(QMainWindow):
         self.profile_list_widget.setCurrentRow(self.profile_list_widget.count() - 1)
 
     def on_send_profile_push_button_clicked(self):
-        if self.serial:
-            self.serial.send(self.serial_parser.parse_profile(self.main_window_model.profile))
-            time.sleep(0.1)
-            self.serial.send('CD0')
+        if not self.serial:
+            return
+        self.serial.send(self.serial_parser.parse_profile(self.main_window_model.profile))
+        time.sleep(0.1)
+        self.serial.send('CD0')
 
     def on_save_profile_push_button_clicked(self):
         self.main_window_model.save_profile()
@@ -264,8 +269,9 @@ class QMainWindowExt(QMainWindow):
 
     def on_profile_list_widget_current_item_changed(
             self, selected: QListWidgetItem, deselected: QListWidgetItem) -> None:
-        if self.profile_list_widget.currentRow() >= 0:
-            self.main_window_model.profile = self.main_window_model.profiles[self.profile_list_widget.currentRow()]
+        if self.profile_list_widget.currentRow() < 0:
+            return
+        self.main_window_model.profile = self.main_window_model.profiles[self.profile_list_widget.currentRow()]
 
     def on_profile_list_widget_item_clicked(self, item: QListWidgetItem):
         self.main_window_model.profile = self.main_window_model.profiles[self.profile_list_widget.currentRow()]
@@ -300,14 +306,21 @@ class QMainWindowExt(QMainWindow):
         self.main_window_model.save_command()
 
     def on_send_command_push_button_clicked(self):
-        if self.serial:
-            self.serial.send(self.command_line_edit.text())
+        if not self.serial:
+            return
+        self.serial.send(self.command_line_edit.text())
 
     def on_terminal_plain_text_edit_text_changed(self):
         self.clear_terminal_push_button.setEnabled(bool(self.terminal_plain_text_edit.toPlainText()))
 
     def on_clear_terminal_push_button_clicked(self):
         self.terminal_plain_text_edit.setPlainText("")
+        self.received_form.terminal_plain_text_edit.setPlainText("")
+
+    def on_show_hide_external_terminal_push_button_clicked(self):
+        if not self.received_form:
+            return
+        self.received_form.hide() if self.received_form.isVisible() else self.received_form.show()
 
     def on_profile_name_line_edit_text_changed(self, changed_text: str):
         self.main_window_model.profile.name = changed_text
@@ -409,8 +422,9 @@ class QMainWindowExt(QMainWindow):
 
     def on_command_list_widget_current_item_changed(
             self, selected: QListWidgetItem, deselected: QListWidgetItem) -> None:
-        if self.command_list_widget.currentRow() >= 0:
-            self.main_window_model.command = self.main_window_model.commands[self.command_list_widget.currentRow()]
+        if self.command_list_widget.currentRow() < 0:
+            return
+        self.main_window_model.command = self.main_window_model.commands[self.command_list_widget.currentRow()]
 
     def on_command_list_widget_item_clicked(self, item: QListWidgetItem):
         self.main_window_model.command = self.main_window_model.commands[self.command_list_widget.currentRow()]
@@ -423,8 +437,10 @@ class QMainWindowExt(QMainWindow):
 
     def on_receive_serial_line(self, line: str):
         self.terminal_plain_text_edit.moveCursor(QTextCursor.End)
-        self.terminal_plain_text_edit.insertPlainText(f"{line}\n")
-        self.terminal_plain_text_edit.moveCursor(QTextCursor.End)
+        self.terminal_plain_text_edit.insertPlainText(f"{line if line else datetime.datetime.now().isoformat()}\n")
+        self.received_form.terminal_plain_text_edit.moveCursor(QTextCursor.End)
+        self.received_form.terminal_plain_text_edit.insertPlainText(
+            f"{line if line else datetime.datetime.now().isoformat()}\n")
 
         data: Optional[Union[sdk.FreezeDripSerialData, sdk.FreezeDripSerialResponse]] = \
             self.serial_parser.parse_line(line)

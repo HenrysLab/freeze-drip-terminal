@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1400</width>
-    <height>800</height>
+    <height>744</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -2020,8 +2020,8 @@
        <string>Diagnosis</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_10">
-       <item row="0" column="6" colspan="14">
-        <widget class="QSelectAllOnFocusLineEdit" name="command_name_line_edit">
+       <item row="1" column="4" rowspan="2" colspan="16">
+        <widget class="QLineEdit" name="command_line_edit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -2031,7 +2031,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>26</height>
+           <height>30</height>
           </size>
          </property>
          <property name="font">
@@ -2041,10 +2041,48 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0" rowspan="4" colspan="4">
-        <widget class="QListWidget" name="command_list_widget">
+       <item row="0" column="4" colspan="2">
+        <widget class="QLabel" name="label_37">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+          <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>14</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Command</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="8" colspan="4">
+        <widget class="QPushButton" name="add_command_push_button">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>➕</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="12" colspan="4">
+        <widget class="QPushButton" name="save_command_push_button">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -2052,7 +2090,11 @@
          <property name="font">
           <font>
            <pointsize>11</pointsize>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="text">
+          <string>Save</string>
          </property>
         </widget>
        </item>
@@ -2077,27 +2119,23 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="4" colspan="2">
-        <widget class="QLabel" name="label_37">
+       <item row="0" column="0" rowspan="4" colspan="4">
+        <widget class="QListWidget" name="command_list_widget">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
+          <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>14</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Command</string>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
          </property>
         </widget>
        </item>
-       <item row="1" column="4" rowspan="2" colspan="16">
-        <widget class="QLineEdit" name="command_line_edit">
+       <item row="0" column="6" colspan="14">
+        <widget class="QSelectAllOnFocusLineEdit" name="command_name_line_edit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -2107,13 +2145,32 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>26</height>
+           <height>30</height>
           </size>
          </property>
          <property name="font">
           <font>
            <pointsize>11</pointsize>
           </font>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="4" colspan="4">
+        <widget class="QPushButton" name="remove_command_push_button">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>➖</string>
          </property>
         </widget>
        </item>
@@ -2145,45 +2202,20 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="4" colspan="4">
-        <widget class="QPushButton" name="remove_command_push_button">
+       <item row="3" column="27">
+        <widget class="QPushButton" name="show_hide_external_terminal_push_button">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
+          <sizepolicy hsizetype="Minimum" vsizetype="Ignored">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>40</height>
-          </size>
-         </property>
          <property name="text">
-          <string>➖</string>
+          <string>🗔</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="8" colspan="4">
-        <widget class="QPushButton" name="add_command_push_button">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>➕</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="27" rowspan="4">
+       <item row="0" column="27" rowspan="3">
         <widget class="QPushButton" name="clear_terminal_push_button">
          <property name="enabled">
           <bool>false</bool>
@@ -2203,25 +2235,6 @@
          </property>
          <property name="text">
           <string>×</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="12" colspan="4">
-        <widget class="QPushButton" name="save_command_push_button">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>11</pointsize>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Save</string>
          </property>
         </widget>
        </item>
