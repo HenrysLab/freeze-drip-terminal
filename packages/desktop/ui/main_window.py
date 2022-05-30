@@ -34,6 +34,7 @@ class QMainWindowExt(QMainWindow):
         self.serial_parser: sdk.FreezeDripSerialParser = sdk.FreezeDripSerialParser()
 
         self.received_form: Optional[QReceivedForm] = None
+        self.window_title: str = f"Freeze Drip Terminal {sdk.VERSION}"
 
     def closeEvent(self, event: QCloseEvent) -> None:
         if self.serial:
@@ -43,7 +44,7 @@ class QMainWindowExt(QMainWindow):
     def setup(self, received_form: QReceivedForm) -> None:
         self.received_form = received_form
 
-        self.setWindowTitle(f"{self.windowTitle()} {sdk.VERSION}")
+        self.setWindowTitle(self.window_title)
 
         app_icon: pathlib.Path
         with importlib.resources.path(__package__, 'main_window.ico') as app_icon:
@@ -184,10 +185,16 @@ class QMainWindowExt(QMainWindow):
             self.serial = sdk.SimpleFreezeDripSerial(
                 self.port_popup_hookable_combo_box.currentText(),
                 [self.seirla_receiver]).open()
+            self.setWindowTitle(f"{self.window_title} - {self.port_popup_hookable_combo_box.currentText()}")
+            self.received_form.setWindowTitle(
+                f"{self.port_popup_hookable_combo_box.currentText()} - Received - {self.window_title}")
             if not self.serial:
                 self.on_connected_changed(False)
-        elif self.serial:
-            self.serial.close()
+        else:
+            self.setWindowTitle(self.window_title)
+            self.received_form.setWindowTitle(f"Received - {self.window_title}")
+            if self.serial:
+                self.serial.close()
 
     def on_port_connect_push_button_clicked(self):
         self.main_window_model.connected = True

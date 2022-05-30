@@ -52,7 +52,7 @@ class MainWindowModel(UIModel):
             lvl_2_pump_off_time="60",
             lvl_3_pump_on_time="60",
             lvl_3_pump_off_time="30",
-            low_battery_thold="9.6",
+            low_battery_thold="4.8",
             lost_alarm_interval="10",
             heartbeat_interval="60",
             setup_duration="5"))

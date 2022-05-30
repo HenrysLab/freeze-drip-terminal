@@ -11,8 +11,9 @@ a = Analysis([str(pathlib.Path('.venv') / ('Scripts' if os.name == 'nt' else 'bi
              binaries=[],
              datas=[
                  qt_plugins_path,
+                 (str(pathlib.Path('packages/desktop/ui/main_window.ico')), str(pathlib.Path('desktop/ui'))),
                  (str(pathlib.Path('packages/desktop/ui/main_window.ui')), str(pathlib.Path('desktop/ui'))),
-                 (str(pathlib.Path('packages/desktop/ui/main_window.ico')), str(pathlib.Path('desktop/ui')))],
+                 (str(pathlib.Path('packages/desktop/ui/received_form.ui')), str(pathlib.Path('desktop/ui')))],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
