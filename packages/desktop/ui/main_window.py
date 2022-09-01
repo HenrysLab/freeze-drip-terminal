@@ -145,7 +145,7 @@ class QMainWindowExt(QMainWindow):
     def on_connected_changed(self, connected: bool):
         self.port_popup_hookable_combo_box.setEnabled(not connected)
         self.port_connect_push_button.setEnabled(
-            sdk.get_available_serial_ports() and not connected)
+            bool(sdk.get_available_serial_ports() and not connected))
         self.port_disconnect_push_button.setEnabled(connected)
         self.refresh_push_button.setEnabled(connected)
         self.copy_to_profile_push_button.setEnabled(connected)
